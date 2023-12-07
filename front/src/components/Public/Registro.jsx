@@ -20,7 +20,7 @@ const Registro = () => {
                           type="text"
                           class="form-control form-control-user"
                           id="exampleFirstName"
-                          placeholder="Nombres"
+                          placeholder="Nombre/s"
                         />
                       </div>
                       <div class="col-sm-6">

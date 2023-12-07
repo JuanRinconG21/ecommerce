@@ -12,14 +12,21 @@ import AgregarCategoria from "../components/DashBoard/AgregarCategoria";
 import VerCategorias from "../components/DashBoard/VerCategorias";
 import VerProductos from "../components/DashBoard/VerProductos";
 import AgregarProductos from "../components/DashBoard/AgregarProductos";
+import Pedidos from "../components/DashBoard/Pedidos";
 const Routing = () => {
   return (
     <BrowserRouter>
       <Routes>
+
+        
         <Route path="/" element={<LayoutPublico></LayoutPublico>}>
           <Route index element={<Login></Login>}></Route>
           <Route path="Registro" element={<Registro></Registro>}></Route>
         </Route>
+
+
+
+
         <Route path="*" element={<Error404></Error404>}></Route>
         <Route path="/DashBoard" element={<LayoutDash></LayoutDash>}>
           <Route index element={<Inicio></Inicio>}></Route>
@@ -39,6 +46,8 @@ const Routing = () => {
             path="VerProductos"
             element={<VerProductos></VerProductos>}
           ></Route>
+          <Route path="Pedidos" element={<Pedidos></Pedidos>}></Route>
+
         </Route>
       </Routes>
     </BrowserRouter>
