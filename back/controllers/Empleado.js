@@ -1,12 +1,12 @@
-const { User, sequelize } = require("../models/Conexion");
+const { Emplea, sequelize } = require("../models/Conexion");
 const { QueryTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const ListarUser = async (req, res) => {
+const ListarEmpleados = async (req, res) => {
   try {
     const Users = await sequelize.query(
-      "SELECT usuario.idUsuario, usuario.Nombres, usuario.Apellidos, usuario.Telefono, usuario.Direccion, usuario.Correo , rol.Descripcion AS 'Rol' FROM usuario JOIN rol ON usuario.idRol=rol.idRol",
+      "SELECT empleado.idEmpleado, empleado.Nombres, empleado.Apellidos, empleado.Telefono, empleado.Direccion, empleado.Correo , rol.Descripcion AS 'Rol' FROM empleado JOIN rol ON empleado.idRol=rol.idRol",
       { type: QueryTypes.SELECT }
     );
     res.send({ id: 200, mensaje: Users });
@@ -15,49 +15,49 @@ const ListarUser = async (req, res) => {
   }
 };
 
-const AgregarUser = async (req, res) => {
+const AgregarEmpleados = async (req, res) => {
   try {
     let datos = req.body;
-    let consulta = await User.findOne({
-      where: { idUsuario: req.body.idUsuario },
+    let consulta = await Emplea.findOne({
+      where: { idEmpleado: req.body.idEmpleado },
     });
     if (consulta == null) {
       let password = await bcrypt.hash(datos.Pass, 10);
-      const Metodos = await User.create({
+      const Empleados = await Emplea.create({
         ...req.body,
         Pass: password,
       });
       res.send({
         id: 200,
-        mensaje: "Usuario Agregado",
+        mensaje: "Empleado Agregado",
       });
     } else {
-      res.send({ id: 400, mensaje: "El Usuario Ya Existe" });
+      res.send({ id: 400, mensaje: "El Empleado Ya Existe" });
     }
   } catch (error) {
     res.send({ id: 400, mensaje: error.message });
   }
 };
 
-const EliminarUser = async (req, res) => {
+const EliminarEmpleados = async (req, res) => {
   try {
-    const Users = await User.destroy({
-      where: { idUsuario: req.params.id },
+    const Empleados = await Emplea.destroy({
+      where: { idEmpleado: req.params.id },
     });
-    res.send({ id: 200, mensaje: "Usuario Eliminado" });
+    res.send({ id: 200, mensaje: "Empleado Eliminado" });
   } catch (error) {
     res.send({ id: 400, mensaje: error.messages });
   }
 };
 
-const EditarUser = async (req, res) => {
+const EditarEmpleados = async (req, res) => {
   try {
     let datos = req.body;
     let password = await bcrypt.hash(datos.Pass, 10);
-    const Users = await User.update(
+    const Empleados = await Emplea.update(
       { ...req.body, Pass: password },
       {
-        where: { idUsuario: req.params.id },
+        where: { idEmpleado: req.params.id },
       }
     );
     res.send({ id: 200, mensaje: "Usuario Actualizado" });
@@ -69,7 +69,7 @@ const EditarUser = async (req, res) => {
 const ListarUno = async (req, res) => {
   try {
     const Users = await sequelize.query(
-      `SELECT usuario.idUsuario, usuario.Nombres, usuario.Apellidos, usuario.Telefono, usuario.Direccion, usuario.Correo , rol.Descripcion AS 'Rol' FROM usuario JOIN rol ON usuario.idRol=rol.idRol WHERE idUsuario=${req.params.id}`,
+      `SELECT empleado.idEmpleado, empleado.Nombres, empleado.Apellidos, empleado.Telefono, empleado.Direccion, empleado.Correo , rol.Descripcion AS 'Rol' FROM empleado JOIN rol ON empleado.idRol=rol.idRol WHERE idEmpleado=${req.params.id}`,
       { type: QueryTypes.SELECT }
     );
     res.send({ id: 200, mensaje: Users });
@@ -82,16 +82,16 @@ const Login = async (req, res) => {
   try {
     let data = req.body;
 
-    if (!data.idUsuario || !data.Pass) {
+    if (!data.idEmpleado || !data.Pass) {
       res.send({ id: 400, mensaje: "Email o Contraseña Vacio" });
     }
 
     let dataUsers = await sequelize.query(
-      "SELECT * FROM usuario WHERE idUsuario=" + data.idUsuario,
+      "SELECT * FROM empleado WHERE idEmpleado=" + data.idEmpleado,
       { type: QueryTypes.SELECT }
     );
     if (dataUsers[0] == null) {
-      res.send({ id: 400, mensaje: "El Usuario No Existe" });
+      res.send({ id: 400, mensaje: "El Empleado No Existe" });
     } else {
       let password = bcrypt.compareSync(data.Pass, dataUsers[0].Pass);
       if (!password) {
@@ -99,7 +99,7 @@ const Login = async (req, res) => {
       } else {
         const token = jwt.sign(
           {
-            idUsuario: dataUsers[0].idUsuario,
+            idUsuario: dataUsers[0].idEmpleado,
             Nombres: dataUsers[0].Nombres,
             Correo: dataUsers[0].Correo,
           },
@@ -112,7 +112,7 @@ const Login = async (req, res) => {
           id: 200,
           mensaje: "Ingreso Exitoso",
           usuario: {
-            idUsuario: dataUsers[0].idUsuario,
+            idUsuario: dataUsers[0].idEmpleado,
             Nombres: dataUsers[0].Nombres,
             Correo: dataUsers[0].Correo,
           },
@@ -126,10 +126,10 @@ const Login = async (req, res) => {
 };
 
 module.exports = {
-  ListarUser,
-  AgregarUser,
-  EliminarUser,
-  EditarUser,
+  ListarEmpleados,
+  AgregarEmpleados,
+  EliminarEmpleados,
+  EditarEmpleados,
   ListarUno,
   Login,
 };

@@ -1,15 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const CategoriasController = require("../controllers/Categorias");
+const auth = require("../controllers/auth");
 
-router.get("/categorias/listar", CategoriasController.ListarCategoria);
+router.get("/categorias/listar", auth, CategoriasController.ListarCategoria);
 
-router.post("/categorias/Agregar", CategoriasController.AgregarCategoria);
+router.post("/categorias/Agregar", auth, CategoriasController.AgregarCategoria);
 
-router.put("/categorias/Editar/:id", CategoriasController.EditarCategoria);
+router.put(
+  "/categorias/Editar/:id",
+  auth,
+  CategoriasController.EditarCategoria
+);
 
-router.delete("/categorias/eliminar/:id",CategoriasController.EliminarCategoria);
+router.delete(
+  "/categorias/eliminar/:id",
+  auth,
+  CategoriasController.EliminarCategoria
+);
 
-router.get("/categorias/listarUno/:id", CategoriasController.ListarUno);
+router.get("/categorias/listarUno/:id", auth, CategoriasController.ListarUno);
 
 module.exports = router;

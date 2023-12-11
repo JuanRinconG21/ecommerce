@@ -1,9 +1,14 @@
 const { Products, sequelize } = require("../models/Conexion");
-const { QueryTypes } = require("sequelize");
+const { QueryTypes, Sequelize } = require("sequelize");
 
 const ListarProductos = async (req, res) => {
   try {
-    const Productos = await Products.findAll();
+    let pageNumber = parseInt(req.params.pagina);
+    let pageSize = 3;
+    const offset = (pageNumber - 1) * pageSize;
+    const limit = pageSize;
+
+    const Productos = await Products.findAll({ offset: offset, limit: limit });
     res.send({ id: 200, mensaje: Productos });
   } catch (error) {
     res.send({ id: 400, mensaje: error.message });
@@ -12,11 +17,26 @@ const ListarProductos = async (req, res) => {
 
 const ListarProductosInnerJoin = async (req, res) => {
   try {
-    const ProductosCate = await sequelize.query(
-      "SELECT producto.idProducto, producto.Nombre, producto.Marca, producto.Precio, producto.Cantidad, producto.Descripcion, categoria.DescripcionCategoria, producto.Imagen1  FROM producto JOIN categoria ON producto.idCategoria = categoria.idCategoria",
-      { type: QueryTypes.SELECT }
-    );
-    res.send({ id: 200, mensaje: ProductosCate });
+    let pageNumber = parseInt(req.params.pagina);
+    let pageSize = 3;
+    const offset = (pageNumber - 1) * pageSize;
+    const limit = pageSize;
+    //CONSULTA
+    const query = `
+    SELECT producto.idProducto, producto.Nombre, producto.Marca, producto.Precio, producto.Cantidad, producto.Descripcion, categoria.DescripcionCategoria, producto.Imagen1  FROM producto JOIN categoria ON producto.idCategoria = categoria.idCategoria LIMIT :limitValue OFFSET :offsetValue
+  `;
+    //DATOS DE PAGINACION
+    const replacements = {
+      limitValue: limit,
+      offsetValue: offset,
+    };
+    console.log("REPLACEMENTS", replacements);
+    console.table(replacements);
+    const results = await sequelize.query(query, {
+      replacements: replacements,
+      type: Sequelize.QueryTypes.SELECT,
+    });
+    res.send({ id: 200, mensaje: results });
   } catch (error) {
     res.send({ id: 400, mensaje: error.message });
   }
@@ -46,7 +66,7 @@ const EliminarProductos = async (req, res) => {
   }
 };
 
-const ListarUno = async (req, res) => {
+/* const ListarUno = async (req, res) => {
   try {
     const Productos = await Products.findOne({
       where: { idProducto: req.params.id },
@@ -55,7 +75,7 @@ const ListarUno = async (req, res) => {
   } catch (error) {
     res.send({ id: 400, mensaje: error.message });
   }
-};
+}; */
 
 const ListarProductoXid = async (req, res) => {
   try {
@@ -71,6 +91,7 @@ const ListarProductoXid = async (req, res) => {
 };
 
 module.exports = {
+  ListarProductos,
   ListarProductosInnerJoin,
   ListarProductosXCate,
   EliminarProductos,

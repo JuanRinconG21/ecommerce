@@ -3,7 +3,7 @@ const router = express.Router();
 const ProductosController = require("../controllers/Productos");
 const { Products } = require("../models/Conexion");
 const multer = require("multer");
-const { route } = require("./Categorias");
+const auth = require("../controllers/auth");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -22,16 +22,21 @@ const upload = multer({
   },
 });
 
-router.get("/productos/listar", ProductosController.ListarProductosInnerJoin);
+router.get(
+  "/productos/listar/:pagina?",
+  ProductosController.ListarProductosInnerJoin
+);
 
 router.get(
   "/productos/listarCategoria/:id",
+  auth,
   ProductosController.ListarProductosXCate
 );
 
 router.post(
   "/productos/Agregar",
   upload.single("Imagen1"),
+  auth,
   async (req, res) => {
     try {
       const originalname = req.file.filename;
@@ -49,6 +54,7 @@ router.post(
 router.put(
   "/productos/Editar/:id",
   upload.single("Imagen1"),
+  auth,
   async (req, res) => {
     try {
       const originalname = req.file.filename;
@@ -66,8 +72,16 @@ router.put(
   }
 );
 
-router.delete("/productos/eliminar/:id", ProductosController.EliminarProductos);
+router.delete(
+  "/productos/eliminar/:id",
+  auth,
+  ProductosController.EliminarProductos
+);
 
-router.get("/productos/listarUno/:id", ProductosController.ListarProductoXid);
+router.get(
+  "/productos/listarUno/:id",
+  auth,
+  ProductosController.ListarProductoXid
+);
 
 module.exports = router;

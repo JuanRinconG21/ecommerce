@@ -9,6 +9,7 @@ const Usuarios = require("./Usuarios");
 const Estado = require("./Estado");
 const Encabezado = require("./Encabezado");
 const Detalle = require("./Detalle");
+const Empleados = require("./Empleados");
 
 const sequelize = new Sequelize("bd_ecommerce", "root", "", {
   host: "localhost",
@@ -23,6 +24,7 @@ const Estados = Estado(sequelize, Sequelize);
 const Roles = Rol(sequelize, Sequelize);
 const Encabeza = Encabezado(sequelize, Sequelize);
 const Deta = Detalle(sequelize, Sequelize);
+const Emplea = Empleados(sequelize, Sequelize);
 
 sequelize.sync({ force: false }).then(() => {
   console.log("BD SINCRONIZADA");
@@ -38,4 +40,5 @@ module.exports = {
   Roles,
   Encabeza,
   Deta,
+  Emplea,
 };

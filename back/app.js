@@ -6,6 +6,7 @@ const RutasUsers = require("./routes/Usuarios");
 const RutasProductos = require("./routes/Productos");
 const RutasEncabezado = require("./routes/Encabezado");
 const RutasDetalle = require("./routes/Detalle");
+const RutasEmpleados = require("./routes/Empleados");
 const app = express();
 require("./models/Conexion");
 const puerto = 2100;
@@ -19,6 +20,7 @@ app.use("/", RutasUsers);
 app.use("/", RutasProductos);
 app.use("/", RutasEncabezado);
 app.use("/", RutasDetalle);
+app.use("/", RutasEmpleados);
 
 app.listen(puerto, () => {
   console.log("Aplicacion ejecutandose en : http://localhost:2100");
