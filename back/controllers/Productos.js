@@ -42,6 +42,18 @@ const ListarProductosInnerJoin = async (req, res) => {
   }
 };
 
+const ListarProductosInnerJoinNo = async (req, res) => {
+  try {
+    const ProductosCate = await sequelize.query(
+      `SELECT producto.idProducto, producto.Nombre, producto.Marca, producto.Precio, producto.Cantidad, producto.Descripcion, categoria.DescripcionCategoria, producto.Imagen1  FROM producto JOIN categoria ON producto.idCategoria = categoria.idCategoria`,
+      { type: QueryTypes.SELECT }
+    );
+    res.send({ id: 200, mensaje: ProductosCate });
+  } catch (error) {
+    res.send({ id: 400, mensaje: error.message });
+  }
+};
+
 const ListarProductosXCate = async (req, res) => {
   try {
     let idCate = req.params.id;
@@ -93,6 +105,7 @@ const ListarProductoXid = async (req, res) => {
 module.exports = {
   ListarProductos,
   ListarProductosInnerJoin,
+  ListarProductosInnerJoinNo,
   ListarProductosXCate,
   EliminarProductos,
   ListarProductoXid,

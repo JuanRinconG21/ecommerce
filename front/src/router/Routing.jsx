@@ -29,7 +29,6 @@ const Routing = () => {
           <Route index element={<Login></Login>}></Route>
           <Route path="Registro" element={<Registro></Registro>}></Route>
         </Route>
-
         <Route path="*" element={<Error404></Error404>}></Route>
         <Route path="/DashBoard" element={<LayoutDash></LayoutDash>}>
           <Route index element={<Inicio></Inicio>}></Route>

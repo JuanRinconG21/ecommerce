@@ -28,6 +28,11 @@ router.get(
 );
 
 router.get(
+  "/productos/listarNo",
+  ProductosController.ListarProductosInnerJoinNo
+);
+
+router.get(
   "/productos/listarCategoria/:id",
   auth,
   ProductosController.ListarProductosXCate
