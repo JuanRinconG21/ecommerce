@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-const Login = () => {
+const LoginDash = () => {
   return (
     <div className="container-fluid" style={{ marginTop: "8%" }}>
       <div class="container">
@@ -13,8 +13,7 @@ const Login = () => {
                     <div class="p-5">
                       <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">
-                          Bienvenido de Vuelta <br />
-                          Inicia Session Para Comprar
+                          Login Para Empleados
                         </h1>
                       </div>
                       <form class="user">
@@ -24,7 +23,7 @@ const Login = () => {
                             class="form-control form-control-user"
                             id="exampleInputEmail"
                             aria-describedby="emailHelp"
-                            placeholder="Ingresa Tu Identificacion..."
+                            placeholder="Ingresa Tu Identificacion"
                           />
                         </div>
                         <div class="form-group">
@@ -35,22 +34,18 @@ const Login = () => {
                             placeholder="Contraseña"
                           />
                         </div>
-                        <button class="btn btn-primary btn-user btn-block">
+                        <a
+                          href="index.html"
+                          class="btn btn-primary btn-user btn-block"
+                        >
                           Login
-                        </button>
+                        </a>
                       </form>
                       <hr />
-                      <NavLink to="/Registro">
+                      <NavLink to="/">
                         <div class="text-center">
                           <button class="btn btn-success btn-user btn-block">
-                            Crear una Cuenta
-                          </button>
-                        </div>
-                      </NavLink>
-                      <NavLink to="/LoginDash">
-                        <div class="text-center">
-                          <button class="btn btn-success btn-user btn-block mt-2">
-                            ¿Eres Empleado? Logueate
+                            ¿Eres Usuario? Logueate Aca
                           </button>
                         </div>
                       </NavLink>
@@ -66,4 +61,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginDash;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { NavLink } from "react-router-dom";
 const Registro = () => {
   return (
     <div className="container-fluid" style={{ marginTop: "5%" }}>
@@ -11,9 +11,20 @@ const Registro = () => {
               <div class="col-lg-7">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Crea una Cuenta!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">
+                      Crea una Cuenta! <br />
+                      Para Iniciar a Comprar
+                    </h1>
                   </div>
                   <form class="user">
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control form-control-user"
+                        id="exampleInputEmail"
+                        placeholder="Identificacion"
+                      />
+                    </div>
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
                         <input
@@ -76,11 +87,13 @@ const Registro = () => {
                     </a>
                   </form>
                   <hr />
-                  <div class="text-center">
-                    <a class="small" href="login.html">
-                      ¿Ya tienes una cuenta? Ve al Login!
-                    </a>
-                  </div>
+                  <NavLink to="/">
+                    <div class="text-center">
+                      <button class="btn btn-success btn-user btn-block">
+                        ¿Ya tienes Cuenta? Logueate
+                      </button>
+                    </div>
+                  </NavLink>
                 </div>
               </div>
             </div>
