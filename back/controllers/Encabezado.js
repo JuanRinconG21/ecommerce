@@ -13,14 +13,14 @@ const { QueryTypes } = require("sequelize");
 const ListarEncabezados = async (req, res) => {
   try {
     const Encabezados = await sequelize.query(
-      "SELECT encabezado.idEncabezado, encabezado.FechayHora, encabezado.Total, estado.Descripcion AS 'Estado', usuario.Nombres, usuario.Apellidos, metodopago.Descripcion AS 'MetodoPago' FROM encabezado JOIN estado ON encabezado.idEstado = estado.idEstado JOIN usuario ON encabezado.idUsuario = usuario.idUsuario JOIN metodopago ON encabezado.idMetodo = metodopago.idMetodo",
+      "SELECT encabezado.idEncabezado, encabezado.FechayHora, encabezado.Total, encabezado.idEstado, usuario.Nombres, usuario.Apellidos, metodopago.Descripcion AS 'MetodoPago' FROM encabezado JOIN usuario ON encabezado.idUsuario = usuario.idUsuario JOIN metodopago ON encabezado.idMetodo = metodopago.idMetodo",
       {
         type: QueryTypes.SELECT,
       }
     );
     res.send({ id: 200, mensaje: Encabezados });
   } catch (error) {
-    res.send({ id: 200, mensaje: error.message });
+    res.send({ id: 400, mensaje: error.message });
   }
 };
 
@@ -36,7 +36,7 @@ const AgregarEncabezados = async (req, res) => {
 const EditarEstadoEncabezado = async (req, res) => {
   try {
     const Encabezados = await Encabeza.update(
-      { idEstado: 4 },
+      { idEstado: 1 },
       {
         where: { idEncabezado: req.params.id },
       }

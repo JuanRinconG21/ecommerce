@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     cb(null, "./uploads");
   },
   filename: (req, file, cb) => {
-    let imagePath = file.originalname;
+    let imagePath = Date.now() + "-" + file.originalname;
     cb(null, imagePath);
   },
 });
@@ -45,6 +45,7 @@ router.post(
   async (req, res) => {
     try {
       const originalname = req.file.filename;
+
       const imagePath = `http://127.0.0.1:3900/images/${originalname}`;
       const Producto = await Products.create({
         ...req.body,

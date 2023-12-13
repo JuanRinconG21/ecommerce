@@ -1,6 +1,4 @@
-const Estado = require("./Estado");
 const Usuario = require("./Usuarios");
-const Metodo = require("./Estado");
 module.exports = (sequelize, type) => {
   return sequelize.define(
     "encabezado",
@@ -18,11 +16,6 @@ module.exports = (sequelize, type) => {
       },
       idEstado: {
         type: type.INTEGER,
-        allowNull: false,
-        references: {
-          model: "estado",
-          key: "idEstado",
-        },
       },
       idUsuario: {
         type: type.INTEGER,

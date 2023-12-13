@@ -1,4 +1,4 @@
-const Rol = require("./Rol");
+
 module.exports = (sequelize, type) => {
   return sequelize.define(
     "usuario",
@@ -24,14 +24,6 @@ module.exports = (sequelize, type) => {
       },
       Pass: {
         type: type.STRING(256),
-      },
-      idRol: {
-        type: type.INTEGER,
-        allowNull: false,
-        references: {
-          model: "rol",
-          key: "idRol",
-        },
       },
     },
     {
