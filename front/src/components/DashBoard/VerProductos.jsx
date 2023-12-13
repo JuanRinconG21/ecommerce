@@ -25,8 +25,6 @@ const VerProductos = () => {
                 <th scope="col">Descripcion</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Imagen</th>
-                <th scope="col">Imagen 2</th>
-                <th scope="col">Imagen 3</th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
@@ -39,12 +37,6 @@ const VerProductos = () => {
                 <td scope="col">21</td>
                 <td scope="col">NO HAY</td>
                 <td scope="col">Perrote</td>
-                <td scope="col">
-                  <img src="" alt="" srcset="" />
-                </td>
-                <td scope="col">
-                  <img src="" alt="" srcset="" />
-                </td>
                 <td scope="col">
                   <img src="" alt="" srcset="" />
                 </td>

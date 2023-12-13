@@ -1,4 +1,4 @@
-const Inicio = () => {
+const VerEmpleado = () => {
   return (
     <div className="container-fluid">
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -65,4 +65,4 @@ const Inicio = () => {
   );
 };
 
-export default Inicio;
+export default VerEmpleado;

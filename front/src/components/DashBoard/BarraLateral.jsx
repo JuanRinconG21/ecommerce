@@ -28,11 +28,26 @@ const BarraLateral = () => {
         <NavLink to="/DashBoard/">
           <a class="nav-link">
             <i class="fas fa-users"></i>
-            <span>Usuarios del Sistema</span>
+            <span>Clientes</span>
           </a>
         </NavLink>
       </li>
-
+      <hr class="sidebar-divider" />
+      <div class="sidebar-heading">Empleados</div>
+      <li class="nav-item">
+        <NavLink to="/DashBoard/AgregarEmpleado">
+          <a class="nav-link">
+            <i class="fas fa-plus-square"></i>
+            <span>Agregar Empleado</span>
+          </a>
+        </NavLink>
+        <NavLink to="/DashBoard/VerEmpleados">
+          <a class="nav-link ">
+            <i class="fas fa-th-list"></i>
+            <span>Ver Empleados</span>
+          </a>
+        </NavLink>
+      </li>
       <hr class="sidebar-divider" />
 
       <div class="sidebar-heading">Categorias</div>
@@ -68,6 +83,21 @@ const BarraLateral = () => {
         </NavLink>
       </li>
       <hr class="sidebar-divider d-none d-md-block" />
+      <div class="sidebar-heading">Metodos de Pago</div>
+      <li class="nav-item">
+        <NavLink to="/DashBoard/AgregarMetodo">
+          <a class="nav-link">
+            <i class="fas fa-plus-square"></i>
+            <span>Agregar Metodo</span>
+          </a>
+        </NavLink>
+        <NavLink to="/DashBoard/VerMetodos">
+          <a class="nav-link">
+            <i class="fas fa-th-list"></i>
+            <span>Ver Metodos</span>
+          </a>
+        </NavLink>
+      </li>
       <div class="sidebar-heading">Ecommerce</div>
       <li class="nav-item">
         <NavLink to="/DashBoard/Pedidos">

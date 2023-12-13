@@ -20,6 +20,11 @@ import LayoutEcommerce from "../components/Ecommerce/LayoutEcommerce";
 import SobreNosotros from "../components/Ecommerce/SobreNosotros";
 import Carrito from "../components/Ecommerce/Carrito";
 import Pedidos from "../components/DashBoard/Pedidos";
+import LoginDash from "../components/Public/LoginDash";
+import VerMetodos from "../components/DashBoard/VerMetodos";
+import AgregarMetodo from "../components/DashBoard/AgregarMetodo";
+import AgregarEmpleado from "../components/DashBoard/AgregarEmpleado";
+import VerEmpleado from "../components/DashBoard/VerEmpleado";
 
 const Routing = () => {
   return (
@@ -28,6 +33,7 @@ const Routing = () => {
         <Route path="/" element={<LayoutPublico></LayoutPublico>}>
           <Route index element={<Login></Login>}></Route>
           <Route path="Registro" element={<Registro></Registro>}></Route>
+          <Route path="LoginDash" element={<LoginDash></LoginDash>}></Route>
         </Route>
         <Route path="*" element={<Error404></Error404>}></Route>
         <Route path="/DashBoard" element={<LayoutDash></LayoutDash>}>
@@ -49,6 +55,19 @@ const Routing = () => {
             element={<VerProductos></VerProductos>}
           ></Route>
           <Route path="Pedidos" element={<Pedidos></Pedidos>}></Route>
+          <Route path="VerMetodos" element={<VerMetodos></VerMetodos>}></Route>
+          <Route
+            path="AgregarMetodo"
+            element={<AgregarMetodo></AgregarMetodo>}
+          ></Route>
+          <Route
+            path="AgregarEmpleado"
+            element={<AgregarEmpleado></AgregarEmpleado>}
+          ></Route>
+          <Route
+            path="VerEmpleados"
+            element={<VerEmpleado></VerEmpleado>}
+          ></Route>
         </Route>
         <Route path="/Ecommerce" element={<LayoutEcommerce></LayoutEcommerce>}>
           <Route index element={<InicioEcommerce></InicioEcommerce>}></Route>
