@@ -3,6 +3,12 @@ const { QueryTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+/**
+ * FUNCION PARA LISTAR
+ * @param {Array} req -Peticion con Datos
+ * @param {object} res -Respuesta de la Funcion
+ * @returns {object} -ID Y MENSAJE
+ */
 const ListarEmpleados = async (req, res) => {
   try {
     const Users = await sequelize.query(
@@ -66,6 +72,12 @@ const EditarEmpleados = async (req, res) => {
   }
 };
 
+/**
+ * FUNCION PARA LISTAR UNO
+ * @param {Array} req -Peticion con Datos
+ * @param {object} res -Respuesta de la Funcion
+ * @returns {object} -ID Y MENSAJE
+ */
 const ListarUno = async (req, res) => {
   try {
     const Users = await sequelize.query(
@@ -78,6 +90,12 @@ const ListarUno = async (req, res) => {
   }
 };
 
+/**
+ * FUNCION PARA LOGUEARSE
+ * @param {Array} req -Peticion con Datos
+ * @param {object} res -Respuesta de la Funcion
+ * @returns {object} -Si es Correcto ID,MENSAJE,USARIO,TOKEN / Si es Incorrecto ID,MENSAJE
+ */
 const Login = async (req, res) => {
   try {
     let data = req.body;
@@ -112,7 +130,7 @@ const Login = async (req, res) => {
           id: 200,
           mensaje: "Ingreso Exitoso",
           usuario: {
-            idUsuario: dataUsers[0].idEmpleado,
+            idEmpleado: dataUsers[0].idEmpleado,
             Nombres: dataUsers[0].Nombres,
             Correo: dataUsers[0].Correo,
           },

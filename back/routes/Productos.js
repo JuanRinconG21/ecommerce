@@ -5,6 +5,9 @@ const { Products } = require("../models/Conexion");
 const multer = require("multer");
 const auth = require("../controllers/auth");
 
+/**
+ * Funcion para Capturar Datos de una Imagen y Guardarla
+ */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads");
@@ -15,6 +18,9 @@ const storage = multer.diskStorage({
   },
 });
 
+/**
+ * Funcion Para Guardar Imagen y darle un Tamaño Maximo
+ */
 const upload = multer({
   storage: storage,
   limits: {
@@ -38,6 +44,9 @@ router.get(
   ProductosController.ListarProductosXCate
 );
 
+/**
+ * Ruta con Funcion para Agregar datos al Base de Datos y Guardar Una Ruta de la Imagen
+ */
 router.post(
   "/productos/Agregar",
   upload.single("Imagen1"),
@@ -57,6 +66,9 @@ router.post(
     }
   }
 );
+/**
+ * Ruta con Funcion para Editar datos en la Base de Datos y Actualizar la Ruta de la Imagen
+ */
 router.put(
   "/productos/Editar/:id",
   upload.single("Imagen1"),
