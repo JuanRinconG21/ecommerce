@@ -25,60 +25,74 @@ import VerMetodos from "../components/DashBoard/VerMetodos";
 import AgregarMetodo from "../components/DashBoard/AgregarMetodo";
 import AgregarEmpleado from "../components/DashBoard/AgregarEmpleado";
 import VerEmpleado from "../components/DashBoard/VerEmpleado";
+import LayoutEmpleado from "../components/Public/LayoutEmpleado";
+
+//AUTH
+import { AuthProvider } from "../context/AuthProvider";
 
 const Routing = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LayoutPublico></LayoutPublico>}>
-          <Route index element={<Login></Login>}></Route>
-          <Route path="Registro" element={<Registro></Registro>}></Route>
-          <Route path="LoginDash" element={<LoginDash></LoginDash>}></Route>
-        </Route>
-        <Route path="*" element={<Error404></Error404>}></Route>
-        <Route path="/DashBoard" element={<LayoutDash></LayoutDash>}>
-          <Route index element={<Inicio></Inicio>}></Route>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LayoutPublico></LayoutPublico>}>
+            <Route index element={<Login></Login>}></Route>
+            <Route path="Registro" element={<Registro></Registro>}></Route>
+          </Route>
+          <Route path="/LoginDash" element={<LayoutEmpleado></LayoutEmpleado>}>
+            <Route index element={<LoginDash></LoginDash>}></Route>
+          </Route>
+          <Route path="*" element={<Error404></Error404>}></Route>
+          <Route path="/DashBoard" element={<LayoutDash></LayoutDash>}>
+            <Route index element={<Inicio></Inicio>}></Route>
+            <Route
+              path="AgregarCategoria"
+              element={<AgregarCategoria></AgregarCategoria>}
+            ></Route>
+            <Route
+              path="VerCategorias"
+              element={<VerCategorias></VerCategorias>}
+            ></Route>
+            <Route
+              path="AgregarProductos"
+              element={<AgregarProductos></AgregarProductos>}
+            ></Route>
+            <Route
+              path="VerProductos"
+              element={<VerProductos></VerProductos>}
+            ></Route>
+            <Route path="Pedidos" element={<Pedidos></Pedidos>}></Route>
+            <Route
+              path="VerMetodos"
+              element={<VerMetodos></VerMetodos>}
+            ></Route>
+            <Route
+              path="AgregarMetodo"
+              element={<AgregarMetodo></AgregarMetodo>}
+            ></Route>
+            <Route
+              path="AgregarEmpleado"
+              element={<AgregarEmpleado></AgregarEmpleado>}
+            ></Route>
+            <Route
+              path="VerEmpleados"
+              element={<VerEmpleado></VerEmpleado>}
+            ></Route>
+          </Route>
           <Route
-            path="AgregarCategoria"
-            element={<AgregarCategoria></AgregarCategoria>}
-          ></Route>
-          <Route
-            path="VerCategorias"
-            element={<VerCategorias></VerCategorias>}
-          ></Route>
-          <Route
-            path="AgregarProductos"
-            element={<AgregarProductos></AgregarProductos>}
-          ></Route>
-          <Route
-            path="VerProductos"
-            element={<VerProductos></VerProductos>}
-          ></Route>
-          <Route path="Pedidos" element={<Pedidos></Pedidos>}></Route>
-          <Route path="VerMetodos" element={<VerMetodos></VerMetodos>}></Route>
-          <Route
-            path="AgregarMetodo"
-            element={<AgregarMetodo></AgregarMetodo>}
-          ></Route>
-          <Route
-            path="AgregarEmpleado"
-            element={<AgregarEmpleado></AgregarEmpleado>}
-          ></Route>
-          <Route
-            path="VerEmpleados"
-            element={<VerEmpleado></VerEmpleado>}
-          ></Route>
-        </Route>
-        <Route path="/Ecommerce" element={<LayoutEcommerce></LayoutEcommerce>}>
-          <Route index element={<InicioEcommerce></InicioEcommerce>}></Route>
-          <Route path="Productos" element={<Productos></Productos>}></Route>
-          <Route
-            path="SobreNosotros"
-            element={<SobreNosotros></SobreNosotros>}
-          ></Route>
-          <Route path="Carrito" element={<Carrito></Carrito>}></Route>
-        </Route>
-      </Routes>
+            path="/Ecommerce"
+            element={<LayoutEcommerce></LayoutEcommerce>}
+          >
+            <Route index element={<InicioEcommerce></InicioEcommerce>}></Route>
+            <Route path="Productos" element={<Productos></Productos>}></Route>
+            <Route
+              path="SobreNosotros"
+              element={<SobreNosotros></SobreNosotros>}
+            ></Route>
+            <Route path="Carrito" element={<Carrito></Carrito>}></Route>
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 };

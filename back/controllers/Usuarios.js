@@ -78,6 +78,12 @@ const ListarUno = async (req, res) => {
   }
 };
 
+/**
+ * FUNCION PARA LOGUEARSE
+ * @param {Array} req -Peticion con Datos
+ * @param {object} res -Respuesta de la Funcion
+ * @returns {object} -Si es Correcto ID,MENSAJE,USARIO,TOKEN / Si es Incorrecto ID,MENSAJE
+ */
 const Login = async (req, res) => {
   try {
     let data = req.body;
