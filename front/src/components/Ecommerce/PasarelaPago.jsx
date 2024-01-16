@@ -1,131 +1,138 @@
 import React, { useState, useEffect } from "react";
-import { IoIosCloseCircle } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+import HelperForm from "../../helpers/HelperForm";
 
-const Carrito = () => {
+const PasarelaPago = () => {
+  const { form, cambiar } = HelperForm({});
   return (
     <>
       <section className="container py-5">
-        <div className="row  pt-5 pb-3">
-          <div className="col-lg-6">
-            <h1 className="h1 text-start">Tu Carrito</h1>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-8">
-            <div className="site-blocks-table">
-              <table className="table table-borderless table-bordered">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Total</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <img
-                          width="100px"
-                          className="mb-0"
-                          src="https://websitedemos.net/egrow-plants-04/wp-content/uploads/sites/1114/2022/07/flower-008-a-400x550.jpg"
-                          alt=""
-                        />
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">Camiseta</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">$90.000</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <div
-                          className="input-group mb-3 d-flex align-items-center quantity-container"
-                          style={{ maxWidth: "120px" }}
-                        >
-                          <div className="input-group-prepend">
-                            <button
-                              className="btn btn-outline-black decrease"
-                              type="button"
-                            >
-                              -
-                            </button>
-                          </div>
-                          <input
-                            type="text"
-                            className="form-control text-center quantity-amount"
-                            value="1"
-                            placeholder=""
-                            aria-label="Example text with button addon"
-                            aria-describedby="button-addon1"
-                          />
-                          <div className="input-group-append">
-                            <button
-                              className="btn btn-outline-black increase"
-                              type="button"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">$90.000</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <IoIosCloseCircle />
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-7">
+              <h1 className="h1 text-start">Datos de envio</h1>
+              <form className="user mt-4">
+                <div className="form-group">
+                  <input
+                    type="number"
+                    className="form-control form-control-user idUsuario"
+                    id="idUsuario"
+                    name="idUsuario"
+                    placeholder="Identificacion"
+                    onChange={cambiar}
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="email"
+                    className="form-control form-control-user Pass"
+                    id="Correo"
+                    name="Correo"
+                    placeholder="Correo Electronico"
+                    onChange={cambiar}
+                  />
+                </div>
+                <div className="form-group row">
+                  <div className="col-sm-6 mb-3 mb-sm-0">
+                    <input
+                      type="text"
+                      className="form-control form-control-user Nombres"
+                      id="Nombres"
+                      name="Nombres"
+                      placeholder="Nombre/s"
+                      onChange={cambiar}
+                    />
+                  </div>
+                  <div className="col-sm-6">
+                    <input
+                      type="text"
+                      className="form-control form-control-user Apellidos"
+                      id="Apellidos"
+                      name="Apellidos"
+                      placeholder="Apellido/s"
+                      onChange={cambiar}
+                    />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-sm-6 mb-3 mb-sm-0">
+                    <input
+                      type="number"
+                      className="form-control form-control-user Telefono"
+                      id="Telefono"
+                      name="Telefono"
+                      placeholder="Telefono"
+                      onChange={cambiar}
+                    />
+                  </div>
+                  <div className="col-sm-6">
+                    <input
+                      type="text"
+                      className="form-control form-control-user Direccion"
+                      id="Direccion"
+                      name="Direccion"
+                      placeholder="Direccion"
+                      onChange={cambiar}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control form-control-user Correo"
+                    name="Ciudad"
+                    id="Ciudad"
+                    placeholder="Ciudad"
+                    onChange={cambiar}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-success btn-user btn-block mt-4"
+                  style={{ fontSize: "120%" }}
+                >
+                  Pagar
+                </button>
+              </form>
             </div>
-          </div>
-          <div className="col-4">
-            <div class="card">
-              <div class="card-header">Total Carrito</div>
-              <div class="card-body">
-                <div className="d-flex">
-                  <p class="card-text mt-3">Subtotal:</p>
-                  <p class="card-text mt-3 ms-5 ">$90.000</p>
+            <div className="col-1 d-flex">
+              <div class="vertical-line"></div>
+            </div>
+            <div className="col-4">
+              <h2 className="mb-4 text-start">Productos</h2>
+              <div className="card">
+                <div className="d-flex flex-row">
+                  <div class="p-2 ">
+                    <img
+                      width="70px"
+                      className=""
+                      src="https://websitedemos.net/egrow-plants-04/wp-content/uploads/sites/1114/2022/07/flower-008-a-400x550.jpg"
+                      alt=""
+                      style={{ borderRadius: "5px" }}
+                    />
+                  </div>
+                  <div class="p-2 ">
+                    <p>Camiseta</p>
+                    <p>X12</p>
+                  </div>
+                  <div class="ms-5 p-2 d-flex align-items-end flex-column mt-auto">
+                    <p>$ 120.000</p>
+                  </div>
                 </div>
-                <hr />
-                <div className="d-flex">
-                  <p class="card-text mt-3">Total:</p>
-                  <p class="card-text mt-3 ms-5">$90.000</p>
-                </div>
-                <hr />
-                <NavLink to="/Ecommerce/Pasarela" className="">
-                  <button href="#" class="btn btn-success w-100 mt-4">
-                    Ir a pagar
-                  </button>
-                </NavLink>
-                <NavLink to="/Ecommerce" className="">
-                  <button href="#" class="btn btn-dark w-100 mt-3">
-                    Seguir comprando
-                  </button>
-                </NavLink>
+              </div>
+              <div class="d-flex mt-5">
+                <div class="p-2">Subtotal:</div>
+                <div class="ms-auto p-2">$ 120.000</div>
+              </div>
+              <div class="d-flex mb-3 ">
+                <div class="p-2">Total:</div>
+                <div class="ms-auto p-2">$ 120.000</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="bg-dark" id="tempaltemo_footer">
+      <footer className="bg-dark mt-5" id="tempaltemo_footer">
         <div className="container">
           <div className="row">
             <div className="col-md-4 pt-5">
@@ -319,4 +326,4 @@ const Carrito = () => {
   );
 };
 
-export default Carrito;
+export default PasarelaPago;

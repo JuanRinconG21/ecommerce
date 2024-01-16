@@ -19,6 +19,7 @@ const NavBar = () => {
         <Offcanvas.Body className="fixed-body">
           Some text as placeholder. In real life you can have the elements you
           have chosen. Like, text, images, lists, etc.
+          <NavLink to="Carrito">Ir al carrito</NavLink>
         </Offcanvas.Body>
       </Offcanvas>
       <nav className="navbar navbar-expand-lg navbar-light shadow">

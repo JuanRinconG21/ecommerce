@@ -7,7 +7,7 @@ const LayoutEmpleado = () => {
     <>
       <div className="container-fluid">
         {!Autenticado.idEmpleado ? (
-          <Outlet> </Outlet>
+          <Outlet></Outlet>
         ) : (
           <Navigate to={"/DashBoard"}></Navigate>
         )}

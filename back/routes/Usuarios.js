@@ -5,7 +5,7 @@ const auth = require("../controllers/auth");
 
 router.get("/usuarios/listar", auth, UsuariosController.ListarUser);
 
-router.post("/usuarios/Agregar", auth, UsuariosController.AgregarUser);
+router.post("/usuarios/Agregar", UsuariosController.AgregarUser);
 
 router.put("/usuarios/Editar/:id", auth, UsuariosController.EditarUser);
 

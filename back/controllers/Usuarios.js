@@ -18,21 +18,33 @@ const ListarUser = async (req, res) => {
 const AgregarUser = async (req, res) => {
   try {
     let datos = req.body;
-    let consulta = await User.findOne({
-      where: { idUsuario: req.body.idUsuario },
-    });
-    if (consulta == null) {
-      let password = await bcrypt.hash(datos.Pass, 10);
-      const Metodos = await User.create({
-        ...req.body,
-        Pass: password,
-      });
-      res.send({
-        id: 200,
-        mensaje: "Usuario Agregado",
-      });
+    if (
+      !datos.idUsuario ||
+      !datos.Nombres ||
+      !datos.Apellidos ||
+      !datos.Telefono ||
+      !datos.Direccion ||
+      !datos.Correo ||
+      !datos.Pass
+    ) {
+      res.send({ id: 400, mensaje: "Llene los campos vacios" });
     } else {
-      res.send({ id: 400, mensaje: "El Usuario Ya Existe" });
+      let consulta = await User.findOne({
+        where: { idUsuario: req.body.idUsuario },
+      });
+      if (consulta == null) {
+        let password = await bcrypt.hash(datos.Pass, 10);
+        const Metodos = await User.create({
+          ...req.body,
+          Pass: password,
+        });
+        res.send({
+          id: 200,
+          mensaje: "Usuario Agregado",
+        });
+      } else {
+        res.send({ id: 400, mensaje: "El Usuario Ya Existe" });
+      }
     }
   } catch (error) {
     res.send({ id: 400, mensaje: error.message });
@@ -90,40 +102,40 @@ const Login = async (req, res) => {
 
     if (!data.idUsuario || !data.Pass) {
       res.send({ id: 400, mensaje: "Email o Contraseña Vacio" });
-    }
-
-    let dataUsers = await sequelize.query(
-      "SELECT * FROM usuario WHERE idUsuario=" + data.idUsuario,
-      { type: QueryTypes.SELECT }
-    );
-    if (dataUsers[0] == null) {
-      res.send({ id: 400, mensaje: "El Usuario No Existe" });
     } else {
-      let password = bcrypt.compareSync(data.Pass, dataUsers[0].Pass);
-      if (!password) {
-        res.send({ id: 400, mensaje: "Contraseña Incorrecta" });
+      let dataUsers = await sequelize.query(
+        "SELECT * FROM usuario WHERE idUsuario=" + data.idUsuario,
+        { type: QueryTypes.SELECT }
+      );
+      if (dataUsers[0] == null) {
+        res.send({ id: 400, mensaje: "El Usuario No Existe" });
       } else {
-        const token = jwt.sign(
-          {
-            idUsuario: dataUsers[0].idUsuario,
-            Nombres: dataUsers[0].Nombres,
-            Correo: dataUsers[0].Correo,
-          },
-          "Jota&Granada21",
-          {
-            expiresIn: "1d",
-          }
-        );
-        return res.status(200).send({
-          id: 200,
-          mensaje: "Ingreso Exitoso",
-          usuario: {
-            idUsuario: dataUsers[0].idUsuario,
-            Nombres: dataUsers[0].Nombres,
-            Correo: dataUsers[0].Correo,
-          },
-          token: token,
-        });
+        let password = bcrypt.compareSync(data.Pass, dataUsers[0].Pass);
+        if (!password) {
+          res.send({ id: 400, mensaje: "Contraseña Incorrecta" });
+        } else {
+          const token = jwt.sign(
+            {
+              idUsuario: dataUsers[0].idUsuario,
+              Nombres: dataUsers[0].Nombres,
+              Correo: dataUsers[0].Correo,
+            },
+            "Jota&Granada21",
+            {
+              expiresIn: "1d",
+            }
+          );
+          return res.status(200).send({
+            id: 200,
+            mensaje: "Ingreso Exitoso",
+            usuario: {
+              idUsuario: dataUsers[0].idUsuario,
+              Nombres: dataUsers[0].Nombres,
+              Correo: dataUsers[0].Correo,
+            },
+            token: token,
+          });
+        }
       }
     }
   } catch (error) {

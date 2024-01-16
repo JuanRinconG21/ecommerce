@@ -12,13 +12,6 @@ import AgregarCategoria from "../components/DashBoard/AgregarCategoria";
 import VerCategorias from "../components/DashBoard/VerCategorias";
 import VerProductos from "../components/DashBoard/VerProductos";
 import AgregarProductos from "../components/DashBoard/AgregarProductos";
-
-//ECOMMERCE
-import InicioEcommerce from "../components/Ecommerce/Inicio";
-import Productos from "../components/Ecommerce/Productos";
-import LayoutEcommerce from "../components/Ecommerce/LayoutEcommerce";
-import SobreNosotros from "../components/Ecommerce/SobreNosotros";
-import Carrito from "../components/Ecommerce/Carrito";
 import Pedidos from "../components/DashBoard/Pedidos";
 import LoginDash from "../components/Public/LoginDash";
 import VerMetodos from "../components/DashBoard/VerMetodos";
@@ -27,22 +20,26 @@ import AgregarEmpleado from "../components/DashBoard/AgregarEmpleado";
 import VerEmpleado from "../components/DashBoard/VerEmpleado";
 import LayoutEmpleado from "../components/Public/LayoutEmpleado";
 
+//ECOMMERCE
+import InicioEcommerce from "../components/Ecommerce/Inicio";
+import Productos from "../components/Ecommerce/Productos";
+import LayoutEcommerce from "../components/Ecommerce/LayoutEcommerce";
+import SobreNosotros from "../components/Ecommerce/SobreNosotros";
+import Carrito from "../components/Ecommerce/Carrito";
+import PasarelaPago from "../components/Ecommerce/PasarelaPago";
 //AUTH
 import { AuthProvider } from "../context/AuthProvider";
+import { AuthProviderEcommerce } from "../context/AuthProviderEcommerce";
 
 const Routing = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<LayoutPublico></LayoutPublico>}>
-            <Route index element={<Login></Login>}></Route>
-            <Route path="Registro" element={<Registro></Registro>}></Route>
-          </Route>
           <Route path="/LoginDash" element={<LayoutEmpleado></LayoutEmpleado>}>
             <Route index element={<LoginDash></LoginDash>}></Route>
           </Route>
-          <Route path="*" element={<Error404></Error404>}></Route>
+
           <Route path="/DashBoard" element={<LayoutDash></LayoutDash>}>
             <Route index element={<Inicio></Inicio>}></Route>
             <Route
@@ -79,6 +76,14 @@ const Routing = () => {
               element={<VerEmpleado></VerEmpleado>}
             ></Route>
           </Route>
+        </Routes>
+      </AuthProvider>
+      <AuthProviderEcommerce>
+        <Routes>
+          <Route path="/" element={<LayoutPublico></LayoutPublico>}>
+            <Route index element={<Login></Login>}></Route>
+            <Route path="Registro" element={<Registro></Registro>}></Route>
+          </Route>
           <Route
             path="/Ecommerce"
             element={<LayoutEcommerce></LayoutEcommerce>}
@@ -90,9 +95,13 @@ const Routing = () => {
               element={<SobreNosotros></SobreNosotros>}
             ></Route>
             <Route path="Carrito" element={<Carrito></Carrito>}></Route>
+            <Route
+              path="Pasarela"
+              element={<PasarelaPago></PasarelaPago>}
+            ></Route>
           </Route>
         </Routes>
-      </AuthProvider>
+      </AuthProviderEcommerce>
     </BrowserRouter>
   );
 };
