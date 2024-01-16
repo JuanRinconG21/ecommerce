@@ -4,31 +4,28 @@ import HelperForm from "../../helpers/HelperForm";
 import Swal2 from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal2);
-const ModalEditarCate = ({
+const ModalEditarMetodo = ({
   show,
   handleClose,
   id,
-  categoria,
+  metodo,
   setEditar,
-  ListarCate,
+  ListarMetodo,
 }) => {
   const { form, cambiar } = HelperForm({});
   const token = localStorage.getItem("token");
   const Editar = async (e) => {
-    const inpitdes = document.querySelector("#DescripcionCategoria");
+    const inpitdes = document.querySelector("#Descripcion");
     e.preventDefault();
     let formulario = form;
-    const request = await fetch(
-      `http://localhost:2100/categorias/Editar/${id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(formulario),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token}`,
-        },
-      }
-    );
+    const request = await fetch(`http://localhost:2100/metodos/Editar/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(formulario),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+    });
     const data = await request.json();
     if (data.id == 200) {
       let mensaje = data.mensaje;
@@ -39,7 +36,7 @@ const ModalEditarCate = ({
       });
       inpitdes.value = "";
       setEditar(0);
-      ListarCate();
+      ListarMetodo();
     } else {
       let mensaje = data.mensaje;
       MySwal.fire({
@@ -61,16 +58,16 @@ const ModalEditarCate = ({
           <form onSubmit={Editar}>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">
-                Nombre de la Categoria
+                Nombre del Metodo
               </label>
               <input
                 type="text"
                 class="form-control"
-                id="DescripcionCategoria"
-                name="DescripcionCategoria"
+                id="Descripcion"
+                name="Descripcion"
                 aria-describedby="emailHelp"
                 onChange={cambiar}
-                defaultValue={categoria}
+                defaultValue={metodo}
               />
             </div>
             <h1 className="text-center">
@@ -85,4 +82,4 @@ const ModalEditarCate = ({
   );
 };
 
-export default ModalEditarCate;
+export default ModalEditarMetodo;

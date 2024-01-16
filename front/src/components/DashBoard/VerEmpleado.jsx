@@ -1,4 +1,69 @@
+import React, { useState, useEffect } from "react";
+import Swal2 from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal2);
+import ModalEditarEmpleado from "./ModalEditarEmpleado";
 const VerEmpleado = () => {
+  const [datos, Setdatos] = useState([]);
+  const [Editar, setEditar] = useState(null);
+  const token = localStorage.getItem("token");
+  //FUNCION DEL FECTH
+  const Listar = async () => {
+    const request = await fetch("http://localhost:2100/empleado/listar", {
+      method: "GET",
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    const data = await request.json();
+    console.log(data);
+    Setdatos(data.mensaje);
+  };
+  //USE EFECT NO CICLO INFINITO
+  useEffect(() => {
+    Listar();
+  }, []);
+  //FUNCION PARA ELIMINAR
+  const Eliminar = (id, nombre) => {
+    MySwal.fire({
+      title: `¿ Quieres Eliminar el Empleado ${nombre} ?`,
+      showDenyButton: true,
+      confirmButtonText: "Si",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        fetch(`http://localhost:2100/empleado/Eliminar/${id}`, {
+          method: "DELETE", // Método de solicitud (puede ser GET, POST, etc.)
+          headers: {
+            Authorization: `${token}`, // Incluye el token JWT en el encabezado Authorization
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data.id == 200) {
+              MySwal.fire({
+                title: <strong>Eliminado</strong>,
+                html: <i>Eliminado Correctamente</i>,
+                icon: "success",
+              });
+              Listar();
+            } else {
+              MySwal.fire({
+                title: <strong>ERROR</strong>,
+                html: <i>{data.mensaje}</i>,
+                icon: "error",
+              });
+            }
+          });
+      }
+    });
+  };
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <div className="container-fluid">
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -24,39 +89,55 @@ const VerEmpleado = () => {
               </tr>
             </thead>
             <tbody className="text-center">
-              <tr>
-                <th scope="row">1</th>
-                <td>Juan Jose</td>
-                <td>Rincon Gomez</td>
-                <td>3234681033</td>
-                <td>Calle 16c #17-03</td>
-                <td>juan3407rincon@gmail.com</td>
+              {datos.map((dato) => {
+                return (
+                  <tr>
+                    <th scope="row"> {dato.idEmpleado} </th>
+                    <td>{dato.Nombres}</td>
+                    <td>{dato.Apellidos}</td>
+                    <td>{dato.Telefono}</td>
+                    <td>{dato.Direccion}</td>
+                    <td>{dato.Correo}</td>
 
-                <td>
-                  <button className="btn btn-danger mr-2">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                  <button className="btn btn-warning mr-2">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>Juan Pablo</td>
-                <td>Granada </td>
-                <td>3234681033</td>
-                <td>Calle 12c #19-04</td>
-                <td>jpgranada@gmail.com</td>
-                <td>
-                  <button className="btn btn-danger mr-2">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                  <button className="btn btn-warning mr-2">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                </td>
-              </tr>
+                    <td>
+                      <button
+                        onClick={() => {
+                          Eliminar(
+                            dato.idEmpleado,
+                            dato.Nombres + " " + dato.Apellidos
+                          );
+                        }}
+                        className="btn btn-danger mr-2"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditar(dato.idEmpleado);
+                          handleShow();
+                        }}
+                        className="btn btn-warning mr-2"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </button>
+                    </td>
+                    {Editar == dato.idEmpleado && (
+                      <ModalEditarEmpleado
+                        show={show}
+                        handleClose={handleClose}
+                        id={dato.idEmpleado}
+                        nombre={dato.Nombres}
+                        apellido={dato.Apellidos}
+                        telefono={dato.Telefono}
+                        direccion={dato.Direccion}
+                        correo={dato.Correo}
+                        setEditar={setEditar}
+                        Listar={Listar}
+                      />
+                    )}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

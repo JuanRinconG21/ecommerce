@@ -53,9 +53,11 @@ router.post(
   auth,
   async (req, res) => {
     try {
+      console.table(req.body);
+      console.log("REQ FILE 2", req.file);
       const originalname = req.file.filename;
 
-      const imagePath = `http://127.0.0.1:3900/images/${originalname}`;
+      const imagePath = `http://localhost:2100/${originalname}`;
       const Producto = await Products.create({
         ...req.body,
         Imagen1: imagePath,
@@ -76,7 +78,7 @@ router.put(
   async (req, res) => {
     try {
       const originalname = req.file.filename;
-      const imagePath = `http://127.0.0.1:3900/images/${originalname}`;
+      const imagePath = `http://localhost:2100/${originalname}`;
       const Producto = await Products.update(
         { ...req.body, Imagen1: imagePath },
         {

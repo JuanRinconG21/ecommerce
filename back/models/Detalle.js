@@ -23,6 +23,8 @@ module.exports = (sequelize, type) => {
           model: "producto",
           key: "idProducto",
         },
+        onDelete: "CASCADE", // Si se elimina una categoría, se eliminarán los productos relacionados
+        onUpdate: "CASCADE",
       },
       idEncabezado: {
         type: type.INTEGER,
@@ -31,6 +33,8 @@ module.exports = (sequelize, type) => {
           model: "encabezado",
           key: "idEncabezado",
         },
+        onDelete: "CASCADE", // Si se elimina una categoría, se eliminarán los productos relacionados
+        onUpdate: "CASCADE",
       },
     },
     {
