@@ -81,7 +81,6 @@ const VerCategorias = () => {
               </tr>
             </thead>
             <tbody className="text-center">
-              {}
               {categorias.map((categoria) => {
                 return (
                   <tr>

@@ -104,4 +104,6 @@ router.get(
   ProductosController.ListarProductoXid
 );
 
+router.get("/productos/disponibilidad/:id", auth, ProductosController.VerDispo);
+
 module.exports = router;

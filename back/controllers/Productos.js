@@ -102,6 +102,26 @@ const ListarProductoXid = async (req, res) => {
   }
 };
 
+const VerDispo = async (req, res) => {
+  try {
+    let idProducto = req.params.id;
+    let cantidadCliente = req.body.cantidad;
+    const disponibilidad = await sequelize.query(
+      `SELECT producto.Cantidad FROM producto WHERE producto.idProducto = ${idProducto}`,
+      { type: QueryTypes.SELECT }
+    );
+    //console.log(disponibilidad[0].Cantidad);
+    let cantidadFinal = disponibilidad[0].Cantidad - cantidadCliente;
+    if (cantidadFinal < 0) {
+      res.send({ id: 400, mensaje: false, cantidadFinal: cantidadFinal });
+    } else {
+      res.send({ id: 200, mensaje: true, cantidadFinal: cantidadFinal });
+    }
+  } catch (error) {
+    res.send({ id: 400, mensaje: error.message });
+  }
+};
+
 module.exports = {
   ListarProductos,
   ListarProductosInnerJoin,
@@ -109,4 +129,5 @@ module.exports = {
   ListarProductosXCate,
   EliminarProductos,
   ListarProductoXid,
+  VerDispo,
 };

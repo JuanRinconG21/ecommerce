@@ -12,6 +12,23 @@ const AgregarDetalle = async (req, res) => {
       ...req.body,
       idEncabezado: idEncabezado,
     });
+    ///
+    //DESCUENTO LAS UNIDADES DEL PRODUCTO
+    //Traigo la cantidad Actual del Producto
+    const cantidadProducto = await sequelize.query(
+      `SELECT producto.Cantidad FROM producto WHERE producto.idProducto = ${req.body.idProducto}`,
+      { type: QueryTypes.SELECT }
+    );
+    //Capturo cantidad capturada del cliente
+    let cantidadCliente = req.body.Cantidad;
+    //Resto la cantidad Actual de la Comprada
+    let nuevaCantidad = cantidadProducto[0].Cantidad - cantidadCliente;
+    //Actualizo la info de el producto
+    const Actualizacion = await sequelize.query(
+      `UPDATE producto SET Cantidad=${nuevaCantidad}`,
+      { type: QueryTypes.UPDATE }
+    );
+    ///
     //const Encabezados = await Encabeza.create(req.body);
     res.send({ id: 200, mensaje: "Encabezado Agregado Correctamente" });
   } catch (error) {

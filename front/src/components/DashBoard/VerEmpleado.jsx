@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Swal2 from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal2);
@@ -91,7 +91,7 @@ const VerEmpleado = () => {
             <tbody className="text-center">
               {datos.map((dato) => {
                 return (
-                  <tr>
+                  <tr key={dato.idEmpleado}>
                     <th scope="row"> {dato.idEmpleado} </th>
                     <td>{dato.Nombres}</td>
                     <td>{dato.Apellidos}</td>
@@ -109,7 +109,7 @@ const VerEmpleado = () => {
                         }}
                         className="btn btn-danger mr-2"
                       >
-                        <i class="fas fa-trash"></i>
+                        <i className="fas fa-trash"></i>
                       </button>
                       <button
                         onClick={() => {
@@ -118,7 +118,7 @@ const VerEmpleado = () => {
                         }}
                         className="btn btn-warning mr-2"
                       >
-                        <i class="fas fa-edit"></i>
+                        <i className="fas fa-edit"></i>
                       </button>
                     </td>
                     {Editar == dato.idEmpleado && (

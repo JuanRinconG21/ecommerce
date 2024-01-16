@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Swal2 from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import ModalEditarMetodo from "./ModalEditarMetodo";
@@ -85,7 +85,7 @@ const VerMetodos = () => {
               <tbody className="text-center">
                 {metodo.map((metodo) => {
                   return (
-                    <tr>
+                    <tr key={metodo.idMetodo}>
                       <th scope="row">{metodo.idMetodo} </th>
                       <td>{metodo.Descripcion} </td>
                       <td>
@@ -95,7 +95,7 @@ const VerMetodos = () => {
                           }}
                           className="btn btn-danger mr-2"
                         >
-                          <i class="fas fa-trash"></i>
+                          <i className="fas fa-trash"></i>
                         </button>
                         <button
                           onClick={() => {
@@ -104,7 +104,7 @@ const VerMetodos = () => {
                           }}
                           className="btn btn-warning mr-2"
                         >
-                          <i class="fas fa-edit"></i>
+                          <i className="fas fa-edit"></i>
                         </button>
                       </td>
                       {Editar == metodo.idMetodo && (
