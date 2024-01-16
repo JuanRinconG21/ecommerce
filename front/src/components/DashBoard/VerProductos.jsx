@@ -1,6 +1,68 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import Swal2 from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal2);
+import ModalEditarProducto from "./ModalEditarProducto";
 const VerProductos = () => {
+  const [datos, Setdatos] = useState([]);
+  const [Editar, setEditar] = useState(null);
+  const token = localStorage.getItem("token");
+  const Listar = async () => {
+    const request = await fetch("http://localhost:2100/productos/listarNo", {
+      method: "GET",
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    const data = await request.json();
+    console.log(data);
+    Setdatos(data.mensaje);
+  };
+  //USE EFECT NO CICLO INFINITO
+  useEffect(() => {
+    Listar();
+  }, []);
+  //FUNCION PARA ELIMINAR
+  const Eliminar = (id, nombre) => {
+    MySwal.fire({
+      title: `¿ Quieres Eliminar el Producto ${nombre} ?`,
+      showDenyButton: true,
+      confirmButtonText: "Si",
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        fetch(`http://localhost:2100/productos/eliminar/${id}`, {
+          method: "DELETE", // Método de solicitud (puede ser GET, POST, etc.)
+          headers: {
+            Authorization: `${token}`, // Incluye el token JWT en el encabezado Authorization
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data.id == 200) {
+              MySwal.fire({
+                title: <strong>Eliminado</strong>,
+                html: <i>{data.mensaje}</i>,
+                icon: "success",
+              });
+              Listar();
+            } else {
+              MySwal.fire({
+                title: <strong>ERROR</strong>,
+                html: <i>{data.mensaje}</i>,
+                icon: "error",
+              });
+            }
+          });
+      }
+    });
+  };
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <div className="container-fluid">
       <div className=" align-items-center mb-4">
@@ -8,50 +70,65 @@ const VerProductos = () => {
           <b>PRODUCTOS</b>
         </h1>
       </div>
-
       <div className="row">
-        <div className="col-12">
-          <table className="table ">
-            <thead
-              className="text-center bg-primary"
-              style={{ color: "white" }}
-            >
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Marca</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Descripcion</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Imagen</th>
-                <th scope="col">Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              <tr>
-                <th scope="row">1</th>
-                <td scope="col">J</td>
-                <td scope="col">JOTA</td>
-                <td scope="col">21.000</td>
-                <td scope="col">21</td>
-                <td scope="col">NO HAY</td>
-                <td scope="col">Perrote</td>
-                <td scope="col">
-                  <img src="" alt="" srcset="" />
-                </td>
-                <td>
-                  <button className="btn btn-danger mr-2">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                  <button className="btn btn-warning mr-2">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {datos.map((dato) => {
+          return (
+            <div className="col-4">
+              <div className="card" style={{ width: "100%" }}>
+                <img src={dato.Imagen1} class="card-img-top" alt="..." />
+                <div className="card-body">
+                  <h4 className="card-title text-center">
+                    Producto #{dato.idProducto}{" "}
+                  </h4>
+                  <p className="card-text">
+                    <ul class="list-group">
+                      <li class="list-group-item">Nombre: {dato.Nombre} </li>
+                      <li class="list-group-item">Marca: {dato.Marca} </li>
+                      <li class="list-group-item">Precio: {dato.Precio}</li>
+                      <li class="list-group-item">Stock: {dato.Cantidad}</li>
+                      <li class="list-group-item">
+                        Categoria: {dato.DescripcionCategoria}
+                      </li>
+                    </ul>
+                  </p>
+                  <center>
+                    <button
+                      onClick={() => {
+                        Eliminar(dato.idProducto, dato.Nombre);
+                      }}
+                      className="btn btn-danger mr-2"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setEditar(dato.idProducto);
+                        handleShow();
+                      }}
+                      className="btn btn-warning mr-2"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </center>
+                </div>
+              </div>
+              {Editar == dato.idProducto && (
+                <ModalEditarProducto
+                  show={show}
+                  handleClose={handleClose}
+                  id={dato.idProducto}
+                  nombre={dato.Nombre}
+                  marca={dato.Marca}
+                  precio={dato.Precio}
+                  cantidad={dato.Cantidad}
+                  descripcion={dato.Descripcion}
+                  setEditar={setEditar}
+                  ListarMetodo={Listar}
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const EliminarMetodo = async (req, res) => {
     });
     res.send({ id: 200, mensaje: "Metodo Eliminado" });
   } catch (error) {
-    res.send({ id: 400, mensaje: error.messages });
+    res.send({ id: 400, mensaje: error.message });
   }
 };
 

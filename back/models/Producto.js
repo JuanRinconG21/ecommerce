@@ -30,6 +30,8 @@ module.exports = (sequelize, type) => {
           model: "categoria",
           key: "idCategoria",
         },
+        onDelete: "CASCADE", // Si se elimina una categoría, se eliminarán los productos relacionados
+        onUpdate: "CASCADE",
       },
       Imagen1: {
         type: type.STRING(256),

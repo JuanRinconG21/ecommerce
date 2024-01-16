@@ -1,8 +1,21 @@
-import React, { useState, useEffect } from "react";
+import Modal from "react-bootstrap/Modal";
+import React, { Component, useState, useEffect } from "react";
+import HelperForm from "../../helpers/HelperForm";
 import Swal2 from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal2);
-const AgregarProductos = () => {
+const ModalEditarProducto = ({
+  show,
+  handleClose,
+  id,
+  nombre,
+  marca,
+  precio,
+  cantidad,
+  descripcion,
+  setEditar,
+  ListarMetodo,
+}) => {
   const [datos, Setdatos] = useState([]);
   const token = localStorage.getItem("token");
   const Listar = async (e) => {
@@ -21,8 +34,7 @@ const AgregarProductos = () => {
   useEffect(() => {
     Listar();
   }, []);
-  //AGREGAR PRODUCTO
-  const Guardar = async (e) => {
+  const Editar = async (e) => {
     e.preventDefault();
     let Nombre = document.querySelector("#Nombre");
     let Marca = document.querySelector("#Marca");
@@ -48,8 +60,8 @@ const AgregarProductos = () => {
       formData.append("Descripcion", Descripcion.value);
       formData.append("idCategoria", idCategoria.value);
       formData.append("Imagen1", Imagen1.files[0]);
-      fetch("http://localhost:2100/productos/Agregar", {
-        method: "POST",
+      fetch("http://localhost:2100/productos/Editar/" + id, {
+        method: "PUT",
         body: formData,
         headers: {
           Authorization: `${token}`,
@@ -70,7 +82,8 @@ const AgregarProductos = () => {
             Precio.value = "";
             Cantidad.value = "";
             Descripcion.value = "";
-            Imagen1.value.files[0] = "";
+            setEditar(0);
+            ListarMetodo();
           } else {
             MySwal.fire({
               title: <strong> {"Error"}</strong>,
@@ -88,17 +101,14 @@ const AgregarProductos = () => {
     }
   };
   return (
-    <div className="container-fluid">
-      <div className=" align-items-center">
-        <h1 className="h3 mb-0 text-gray-800" style={{ textAlign: "center" }}>
-          <b>Agregar Producto</b>
-        </h1>
-      </div>
-
-      <div className="row" style={{ marginTop: "3%" }}>
-        <div className="col-2"></div>
-        <div className="col-8">
-          <form onSubmit={Guardar}>
+    <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {" "}
+          <form onSubmit={Editar}>
             <div className="mb-3">
               <label for="exampleInputEmail1" className="form-label">
                 Nombre del Producto
@@ -109,6 +119,7 @@ const AgregarProductos = () => {
                 id="Nombre"
                 name="Nombre"
                 aria-describedby="emailHelp"
+                defaultValue={nombre}
               />
             </div>
             <div className="mb-3">
@@ -121,6 +132,7 @@ const AgregarProductos = () => {
                 id="Marca"
                 name="Marca"
                 aria-describedby="emailHelp"
+                defaultValue={marca}
               />
             </div>
             <div className="mb-3">
@@ -133,6 +145,7 @@ const AgregarProductos = () => {
                 id="Precio"
                 name="Precio"
                 aria-describedby="emailHelp"
+                defaultValue={precio}
               />
             </div>
             <div className="mb-3">
@@ -145,6 +158,7 @@ const AgregarProductos = () => {
                 id="Cantidad"
                 name="Cantidad"
                 aria-describedby="emailHelp"
+                defaultValue={cantidad}
               />
             </div>
             <div className="mb-3">
@@ -156,7 +170,9 @@ const AgregarProductos = () => {
                 id="Descripcion"
                 name="Descripcion"
                 style={{ height: "100px" }}
-              ></textarea>
+              >
+                {descripcion}
+              </textarea>
             </div>
             <div className="mb-3">
               <label for="exampleInputEmail1" className="form-label">
@@ -195,11 +211,10 @@ const AgregarProductos = () => {
               </button>
             </h1>
           </form>
-        </div>
-        <div className="col-2"></div>
-      </div>
-    </div>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
-export default AgregarProductos;
+export default ModalEditarProducto;

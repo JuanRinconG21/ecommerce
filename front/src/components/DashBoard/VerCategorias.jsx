@@ -98,10 +98,27 @@ const VerCategorias = () => {
                       >
                         <i class="fas fa-trash"></i>
                       </button>
-                      <button className="btn btn-warning mr-2">
+                      <button
+                        onClick={() => {
+                          setEditar(categoria.idCategoria);
+                          handleShow();
+                        }}
+                        className="btn btn-warning mr-2"
+                      >
                         <i class="fas fa-edit"></i>
                       </button>
                     </td>
+
+                    {Editar == categoria.idCategoria && (
+                      <ModalEditarCate
+                        show={show}
+                        handleClose={handleClose}
+                        id={categoria.idCategoria}
+                        categoria={categoria.DescripcionCategoria}
+                        setEditar={setEditar}
+                        ListarCate={ListarCate}
+                      ></ModalEditarCate>
+                    )}
                   </tr>
                 );
               })}

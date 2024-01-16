@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import React, { Component, useState } from "react";
 import HelperForm from "../../helpers/HelperForm";
 import Swal2 from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal2);
-const AgregarEmpleado = () => {
+const ModalEditarEmpleado = ({
+  show,
+  handleClose,
+  id,
+  nombre,
+  apellido,
+  telefono,
+  direccion,
+  correo,
+  setEditar,
+  Listar,
+}) => {
   const { form, cambiar } = HelperForm({});
   const token = localStorage.getItem("token");
-
-  const Agregar = async (e) => {
-    const inpitdes = document.querySelector("#idEmpleado");
+  const Editar = async (e) => {
     const inpitdes2 = document.querySelector("#Nombres");
     const inpitdes3 = document.querySelector("#Apellidos");
     const inpitdes4 = document.querySelector("#Telefono");
@@ -17,14 +27,17 @@ const AgregarEmpleado = () => {
     const inpitdes7 = document.querySelector("#Pass");
     e.preventDefault();
     let formulario = form;
-    const request = await fetch("http://localhost:2100/empleado/Agregar", {
-      method: "POST",
-      body: JSON.stringify(formulario),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-    });
+    const request = await fetch(
+      `http://localhost:2100/empleado/Actualizar/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(formulario),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+      }
+    );
     const data = await request.json();
     if (data.id == 200) {
       let mensaje = data.mensaje;
@@ -33,13 +46,8 @@ const AgregarEmpleado = () => {
         html: <i>{mensaje}</i>,
         icon: "success",
       });
-      inpitdes.value = "";
-      inpitdes2.value = "";
-      inpitdes3.value = "";
-      inpitdes4.value = "";
-      inpitdes5.value = "";
-      inpitdes6.value = "";
-      inpitdes7.value = "";
+      setEditar(0);
+      Listar();
     } else {
       let mensaje = data.mensaje;
       MySwal.fire({
@@ -47,7 +55,6 @@ const AgregarEmpleado = () => {
         html: <i>{mensaje}</i>,
         icon: "error",
       });
-      inpitdes.value = "";
       inpitdes2.value = "";
       inpitdes3.value = "";
       inpitdes4.value = "";
@@ -57,30 +64,14 @@ const AgregarEmpleado = () => {
     }
   };
   return (
-    <div className="container-fluid">
-      <div className=" align-items-center">
-        <h1 className="h3 mb-0 text-gray-800" style={{ textAlign: "center" }}>
-          <b>Agregar Empleado</b>
-        </h1>
-      </div>
-
-      <div className="row" style={{ marginTop: "3%" }}>
-        <div className="col-2"></div>
-        <div className="col-8">
-          <form onSubmit={Agregar}>
-            <div className="mb-3">
-              <label for="exampleInputEmail1" className="form-label">
-                Identificacion del Empleado
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="idEmpleado"
-                name="idEmpleado"
-                aria-describedby="emailHelp"
-                onChange={cambiar}
-              />
-            </div>
+    <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {" "}
+          <form onSubmit={Editar}>
             <div className="mb-3">
               <label for="exampleInputEmail1" className="form-label">
                 Nombres del Empleado
@@ -92,6 +83,7 @@ const AgregarEmpleado = () => {
                 name="Nombres"
                 aria-describedby="emailHelp"
                 onChange={cambiar}
+                defaultValue={nombre}
               />
             </div>
             <div className="mb-3">
@@ -105,6 +97,7 @@ const AgregarEmpleado = () => {
                 name="Apellidos"
                 aria-describedby="emailHelp"
                 onChange={cambiar}
+                defaultValue={apellido}
               />
             </div>
             <div className="mb-3">
@@ -118,6 +111,7 @@ const AgregarEmpleado = () => {
                 name="Telefono"
                 aria-describedby="emailHelp"
                 onChange={cambiar}
+                defaultValue={telefono}
               />
             </div>
             <div className="mb-3">
@@ -131,6 +125,7 @@ const AgregarEmpleado = () => {
                 name="Direccion"
                 aria-describedby="emailHelp"
                 onChange={cambiar}
+                defaultValue={direccion}
               />
             </div>
             <div className="mb-3">
@@ -144,6 +139,7 @@ const AgregarEmpleado = () => {
                 name="Correo"
                 aria-describedby="emailHelp"
                 onChange={cambiar}
+                defaultValue={correo}
               />
             </div>
             <div className="mb-3">
@@ -157,6 +153,7 @@ const AgregarEmpleado = () => {
                 name="Pass"
                 aria-describedby="emailHelp"
                 onChange={cambiar}
+                required
               />
             </div>
             <h1 className="text-center mt-4">
@@ -165,11 +162,10 @@ const AgregarEmpleado = () => {
               </button>
             </h1>
           </form>
-        </div>
-        <div className="col-2"></div>
-      </div>
-    </div>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
-export default AgregarEmpleado;
+export default ModalEditarEmpleado;
