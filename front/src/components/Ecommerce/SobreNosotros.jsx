@@ -50,10 +50,11 @@ const SobreNosotros = () => {
             <div class="col-md-8 text-white">
               <h1>Sobre Nosotros</h1>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                Bienvenidos a GameSoft, el destino definitivo para los
+                apasionados del mundo de los videojuegos. En nuestro rincón
+                virtual, nos dedicamos a brindar una experiencia única para
+                todos los fanáticos de los juegos, ofreciendo una amplia gama de
+                productos inspirados en tus títulos favoritos.
               </p>
             </div>
             <div class="col-md-4"></div>
@@ -114,10 +115,10 @@ const SobreNosotros = () => {
         <div class="container my-4">
           <div class="row text-center py-3">
             <div class="col-lg-6 m-auto">
-              <h1 class="h1">Our Brands</h1>
+              <h1 class="h1">Nuestras Marcas</h1>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod Lorem ipsum dolor sit amet.
+                Estas son las principales marcas que manejamos en nuestro
+                catalogo de productos
               </p>
             </div>
             <div class="col-lg-9 m-auto tempaltemo-carousel">

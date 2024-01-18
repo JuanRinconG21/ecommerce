@@ -1,14 +1,31 @@
 import React, { useState, useEffect } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { IoIosCloseCircle } from "react-icons/io";
-import ModalProducto from "./ModalProducto";
+import { NavLink } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
 
 const Productos = () => {
   const [categorias, setCategorias] = useState([]);
   const [productos, setProductos] = useState([]);
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState([]);
 
   const token = localStorage.getItem("token2");
+
+  const listarUnProductos = async (id) => {
+    const request = await fetch(
+      `http://localhost:2100/productos/listarUno/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `${token}`,
+        },
+      }
+    );
+    const data = await request.json();
+    setModal([]);
+    setModal(data.mensaje);
+  };
 
   const listarProductosCategoria = async (idCategoria) => {
     const request = await fetch(
@@ -38,7 +55,7 @@ const Productos = () => {
     });
     const data = await request.json();
     //console.log(data);
-    
+    setProductos([]);
     setProductos(data.mensaje);
   };
 
@@ -77,6 +94,69 @@ const Productos = () => {
 
   return (
     <>
+      <Modal
+        show={show2}
+        onHide={handleClose2}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          {modal.map((producto) => {
+            return (
+              <div className="d-flex" key={producto.id}>
+                <div className="flex-shrink-0">
+                  <img src={producto.Imagen1} alt="..." width="300px" />
+                </div>
+                <div className="flex-grow-1 ms-3 d-flex flex-column justify-content-between">
+                  <div>
+                    <h3>{producto.Nombre}</h3>
+                    <h4>{producto.Marca}</h4>
+                    <p className="mt-3">{producto.Descripcion}</p>
+                    <p>$ {producto.Precio}</p>
+                    <p className="">Cantidad:</p>
+                    <div
+                      className="input-group mb-3 d-flex align-items-center quantity-container"
+                      style={{ maxWidth: "120px" }}
+                    >
+                      <div className="input-group-prepend">
+                        <button
+                          className="btn btn-outline-black decrease"
+                          type="button"
+                        >
+                          -
+                        </button>
+                      </div>
+                      <input
+                        type="text"
+                        className="form-control text-center quantity-amount"
+                        value="1"
+                        placeholder=""
+                        aria-label="Example text with button addon"
+                        aria-describedby="button-addon1"
+                      />
+                      <div className="input-group-append">
+                        <button
+                          className="btn btn-outline-black increase"
+                          type="button"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <NavLink to="Carrito" className="">
+                    <button href="#" className="btn btn-dark w-100 mt-auto">
+                      Agregar al carrito
+                    </button>
+                  </NavLink>
+                </div>
+              </div>
+            );
+          })}
+        </Modal.Body>
+      </Modal>
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Carrito de compras</Offcanvas.Title>
@@ -176,18 +256,28 @@ const Productos = () => {
           <div className="col-lg-3">
             <h1 className="h2 pb-2">Categorias</h1>
             <ul className="shop-top-menu pb-3">
+              <li>
+                <a
+                  className="h3 text-dark text-decoration-none mr-3"
+                  onClick={() => {
+                    listarProductos();
+                  }}
+                >
+                  All
+                </a>
+              </li>
               {categorias.map((categoria) => {
                 return (
                   <>
                     <li>
-                      <button
-                        className="h3 text-dark text-decoration-none mr-3"
+                      <a
+                        className="h3 text-dark text-decoration-none mr-3 "
                         onClick={() => {
                           listarProductosCategoria(categoria.idCategoria);
                         }}
                       >
                         {categoria.DescripcionCategoria}
-                      </button>
+                      </a>
                     </li>
                   </>
                 );
@@ -198,15 +288,7 @@ const Productos = () => {
           <div className="col-lg-9">
             <div className="row">
               <div className="col-md-6"></div>
-              <div className="col-md-6 pb-4">
-                <div className="d-flex">
-                  <select className="form-control">
-                    <option>Featured</option>
-                    <option>A to Z</option>
-                    <option>Item</option>
-                  </select>
-                </div>
-              </div>
+              <div className="col-md-6 pb-4"></div>
             </div>
             <div className="row">
               {productos.map((producto) => {
@@ -225,18 +307,10 @@ const Productos = () => {
                                 <a
                                   className="btn btn-success text-white mt-2"
                                   onClick={() => {
-                                    setModal(producto.idProducto);
+                                    listarUnProductos(producto.idProducto);
                                     handleShow2();
                                   }}
                                 >
-                                  {modal == producto.idProducto && (
-                                    <ModalProducto
-                                      show2={show2}
-                                      handleClose2={handleClose2}
-                                      id={producto.idProducto}
-                                    ></ModalProducto>
-                                  )}
-
                                   <i className="far fa-eye"></i>
                                 </a>
                               </li>
@@ -277,35 +351,6 @@ const Productos = () => {
                 );
               })}
             </div>
-            <div div="row">
-              <ul className="pagination pagination-lg justify-content-end">
-                <li className="page-item disabled">
-                  <a
-                    className="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0"
-                    href="#"
-                    tabindex="-1"
-                  >
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a
-                    className="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-                    href="#"
-                  >
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a
-                    className="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
-                    href="#"
-                  >
-                    3
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -315,7 +360,7 @@ const Productos = () => {
           <div className="row">
             <div className="col-md-4 pt-5">
               <h2 className="h2 text-success border-bottom pb-3 border-light logo">
-                Zay Shop
+                GameSoft
               </h2>
               <ul className="list-unstyled text-light footer-link-list">
                 <li>
@@ -342,17 +387,17 @@ const Productos = () => {
 
             <div className="col-md-4 pt-5">
               <h2 className="h2 text-light border-bottom pb-3 border-light">
-                Products
+                Productos
               </h2>
               <ul className="list-unstyled text-light footer-link-list">
                 <li>
                   <a className="text-decoration-none" href="#">
-                    Luxury
+                    Consolas
                   </a>
                 </li>
                 <li>
                   <a className="text-decoration-none" href="#">
-                    Sport Wear
+                    Videojuegos
                   </a>
                 </li>
                 <li>
