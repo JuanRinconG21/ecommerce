@@ -29,6 +29,7 @@ const ModalProducto = ({ show2, handleClose2, id, props }) => {
   return (
     <>
       <Modal
+        {...props}
         show={show2}
         onHide={handleClose2}
         size="lg"
@@ -39,7 +40,7 @@ const ModalProducto = ({ show2, handleClose2, id, props }) => {
         <Modal.Body>
           {productos.map((producto) => {
             return (
-              <div className="d-flex">
+              <div className="d-flex" key={producto.id}>
                 <div className="flex-shrink-0">
                   <img src={producto.Imagen1} alt="..." width="300px" />
                 </div>

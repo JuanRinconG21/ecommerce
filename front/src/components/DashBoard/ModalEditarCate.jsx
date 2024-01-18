@@ -1,5 +1,5 @@
 import Modal from "react-bootstrap/Modal";
-import React, { Component, useState } from "react";
+//import  { Component, useState } from "react";
 import HelperForm from "../../helpers/HelperForm";
 import Swal2 from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";

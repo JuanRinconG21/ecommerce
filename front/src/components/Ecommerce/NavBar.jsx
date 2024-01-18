@@ -18,8 +18,8 @@ const NavBar = () => {
           <Offcanvas.Title>Carrito de compras</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className="fixed-body">
-          <div class="d-flex">
-            <div class="p-2 flex-fill">
+          <div className="d-flex">
+            <div className="p-2 flex-fill">
               <img
                 width="100px"
                 className=""

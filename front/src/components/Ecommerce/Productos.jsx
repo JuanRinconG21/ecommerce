@@ -10,7 +10,7 @@ const Productos = () => {
 
   const token = localStorage.getItem("token2");
 
-  const listarProductosCategoria = async ({ idCategoria }) => {
+  const listarProductosCategoria = async (idCategoria) => {
     const request = await fetch(
       `http://localhost:2100/productos/listarCategoria/${idCategoria}`,
       {
@@ -22,7 +22,9 @@ const Productos = () => {
       }
     );
     const data = await request.json();
-    console.log(data);
+    //console.log(data);
+    //console.table(data);
+    setProductos([]);
     setProductos(data.mensaje);
   };
 
@@ -36,6 +38,7 @@ const Productos = () => {
     });
     const data = await request.json();
     //console.log(data);
+    
     setProductos(data.mensaje);
   };
 
@@ -177,7 +180,12 @@ const Productos = () => {
                 return (
                   <>
                     <li>
-                      <button className="h3 text-dark text-decoration-none mr-3">
+                      <button
+                        className="h3 text-dark text-decoration-none mr-3"
+                        onClick={() => {
+                          listarProductosCategoria(categoria.idCategoria);
+                        }}
+                      >
                         {categoria.DescripcionCategoria}
                       </button>
                     </li>

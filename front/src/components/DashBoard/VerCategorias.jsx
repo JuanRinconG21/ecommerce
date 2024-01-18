@@ -83,7 +83,7 @@ const VerCategorias = () => {
             <tbody className="text-center">
               {categorias.map((categoria) => {
                 return (
-                  <tr>
+                  <tr key={categoria.idCategoria}>
                     <th scope="row">{categoria.idCategoria} </th>
                     <td>{categoria.DescripcionCategoria} </td>
                     <td>
@@ -96,7 +96,7 @@ const VerCategorias = () => {
                         }}
                         className="btn btn-danger mr-2"
                       >
-                        <i class="fas fa-trash"></i>
+                        <i className="fas fa-trash"></i>
                       </button>
                       <button
                         onClick={() => {
@@ -105,7 +105,7 @@ const VerCategorias = () => {
                         }}
                         className="btn btn-warning mr-2"
                       >
-                        <i class="fas fa-edit"></i>
+                        <i className="fas fa-edit"></i>
                       </button>
                     </td>
 
