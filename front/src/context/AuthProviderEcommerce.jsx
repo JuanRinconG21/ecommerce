@@ -24,7 +24,7 @@ export const AuthProviderEcommerce = ({ children }) => {
     // si existen los transformamos en objeto javascript para manipular el ID del usuario
     const userObj = JSON.parse(user);
     const id = userObj.idUsuario;
-    console.log(id);
+    //console.log(id);
     // Comprobacion del token del localstorage vs el del Backend
     try {
       const request = await fetch(
@@ -37,16 +37,16 @@ export const AuthProviderEcommerce = ({ children }) => {
           },
         }
       );
-      console.log(request);
+      //console.log(request);
       if (request.status === 400) {
         return false;
       } else {
         const data = await request.json();
-        console.log("LA DATA", data);
+        //console.log("LA DATA", data);
         setAutenticado(data.mensaje[0]);
       }
     } catch (error) {
-      console.log("OCURRIO UN ERROR");
+      //console.log("OCURRIO UN ERROR");
     }
   };
 

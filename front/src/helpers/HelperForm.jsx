@@ -9,7 +9,7 @@ const HelperForm = (data = {}) => {
   const [form, setForm] = useState(data);
   ///////
   const cambiar = ({ target }) => {
-    console.log({ target });
+    //console.log({ target });
     const { name, value } = target;
 
     setForm({
@@ -17,7 +17,7 @@ const HelperForm = (data = {}) => {
       ...form,
       [name]: value,
     });
-    console.log(form);
+    //console.log(form);
   };
 
   return {

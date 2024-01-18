@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import imagen from "../../assets/img/perifericos.jpg";
+import imagen2 from "../../assets/img/videojuego.jpg";
+import imagen3 from "../../assets/img/consolas.jpg";
 
 const Inicio = () => {
   return (
@@ -207,11 +210,8 @@ const Inicio = () => {
         </div>
         <div className="row">
           <div className="col-12 col-md-4 p-5 mt-3">
-            <a href="#">
-              <img
-                src="https://pbs.twimg.com/media/Eu3rBwtVcAUojQB?format=jpg&name=4096x4096"
-                className="rounded-circle img-fluid border"
-              />
+            <a>
+              <img src={imagen3} className="rounded-circle img-fluid border" />
             </a>
             <h5 className="text-center mt-3 mb-3">Consolas</h5>
             <p className="text-center">
@@ -219,11 +219,8 @@ const Inicio = () => {
             </p>
           </div>
           <div className="col-12 col-md-4 p-5 mt-3">
-            <a href="#">
-              <img
-                src="./assets/img/category_img_02.jpg"
-                className="rounded-circle img-fluid border"
-              />
+            <a>
+              <img src={imagen2} className="rounded-circle img-fluid border" />
             </a>
             <h2 className="h5 text-center mt-3 mb-3">Videojuegos</h2>
             <p className="text-center">
@@ -231,11 +228,8 @@ const Inicio = () => {
             </p>
           </div>
           <div className="col-12 col-md-4 p-5 mt-3">
-            <a href="#">
-              <img
-                src="./assets/img/category_img_03.jpg"
-                className="rounded-circle img-fluid border"
-              />
+            <a>
+              <img src={imagen} className="rounded-circle img-fluid border" />
             </a>
             <h2 className="h5 text-center mt-3 mb-3">Perifericos</h2>
             <p className="text-center">
