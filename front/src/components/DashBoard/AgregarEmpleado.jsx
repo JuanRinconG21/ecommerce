@@ -8,6 +8,7 @@ const AgregarEmpleado = () => {
   const token = localStorage.getItem("token");
 
   const Agregar = async (e) => {
+    
     const inpitdes = document.querySelector("#idEmpleado");
     const inpitdes2 = document.querySelector("#Nombres");
     const inpitdes3 = document.querySelector("#Apellidos");

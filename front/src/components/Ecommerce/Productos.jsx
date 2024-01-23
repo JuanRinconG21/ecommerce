@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { IoIosCloseCircle } from "react-icons/io";
-import { NavLink } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import Swal2 from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal2);
 
 const Productos = () => {
   const [categorias, setCategorias] = useState([]);
@@ -84,14 +86,79 @@ const Productos = () => {
   const handleClose = () => {
     setShow(false);
   };
-  const handleShow = () => {
+  /* const handleShow = () => {
     setShow(true);
-  };
+  }; */
 
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+  //ABRE CARRITO
+  //ABRE CARRITO
+  //ABRE CARRITO
+  //ABRE CARRITO
+  //ABRE CARRITO
 
+  // Estado para almacenar la lista de productos en el localStorage
+
+  const [productosEnLocalStorage, setProductosEnLocalStorage] = useState(
+    JSON.parse(localStorage.getItem("productos")) || []
+  );
+  //FUNCION PARA VERIFICAR SI EL PRODUCTO YA ESTA
+  const productoEnLocalStorage2 = (producto) => {
+    const productosGuardados =
+      JSON.parse(localStorage.getItem("productos")) || [];
+
+    // Verificar si el producto está presente en la lista de productos en localStorage
+    return productosGuardados.some((p) => p.id === producto.idProducto);
+  };
+  const handleClick = (product) => {
+    if (productoEnLocalStorage2(product)) {
+      MySwal.fire({
+        title: <strong> {"Error"}</strong>,
+        html: <i>{"El Producto Ya Esta En El Carrito"}</i>,
+        icon: "error",
+      });
+    } else {
+      let nuevosProductos = JSON.parse(localStorage.getItem("productos")) || [];
+      let nuevoTotal = product.Precio * 1;
+      // Actualizar la lista de productos con el nuevo producto
+      const nuevaLista = [
+        ...nuevosProductos,
+        {
+          imagen: product.Imagen1,
+          nombre: product.Nombre,
+          id: product.idProducto,
+          precio: product.Precio,
+          cantidad: 1,
+          cantidadMaxima: product.Cantidad,
+          total: nuevoTotal,
+        },
+      ];
+      setProductosEnLocalStorage([]);
+      localStorage.setItem("productos", JSON.stringify(nuevaLista));
+      setProductosEnLocalStorage(nuevaLista);
+
+      // Guardar la lista de productos en el localStorage
+      localStorage.setItem("productos", JSON.stringify(nuevaLista));
+      MySwal.fire({
+        title: <strong> {"Felicitaciones"}</strong>,
+        html: <i>{"Productos Agregado Al Carrito Correctamente"}</i>,
+        icon: "success",
+      });
+    }
+  };
+
+  ///CIERRA CARRITO
+  ///CIERRA CARRITO
+  ///CIERRA CARRITO
+  ///CIERRA CARRITO
+  ///CIERRA CARRITO
+
+  //COLOCARLE MILES A LOS PRODUCTOS
+  const formatearPrecio = (precio) => {
+    return precio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
   return (
     <>
       <Modal
@@ -105,52 +172,35 @@ const Productos = () => {
         <Modal.Body>
           {modal.map((producto) => {
             return (
-              <div className="d-flex" key={producto.id}>
+              <div className="d-flex" key={producto.idProducto}>
                 <div className="flex-shrink-0">
                   <img src={producto.Imagen1} alt="..." width="300px" />
                 </div>
                 <div className="flex-grow-1 ms-3 d-flex flex-column justify-content-between">
                   <div>
                     <h3>{producto.Nombre}</h3>
-                    <h4>{producto.Marca}</h4>
-                    <p className="mt-3">{producto.Descripcion}</p>
-                    <p>$ {producto.Precio}</p>
-                    <p className="">Cantidad:</p>
-                    <div
-                      className="input-group mb-3 d-flex align-items-center quantity-container"
-                      style={{ maxWidth: "120px" }}
-                    >
-                      <div className="input-group-prepend">
-                        <button
-                          className="btn btn-outline-black decrease"
-                          type="button"
-                        >
-                          -
-                        </button>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control text-center quantity-amount"
-                        value="1"
-                        placeholder=""
-                        aria-label="Example text with button addon"
-                        aria-describedby="button-addon1"
-                      />
-                      <div className="input-group-append">
-                        <button
-                          className="btn btn-outline-black increase"
-                          type="button"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
+                    <h4>Categoria: {producto.DescripcionCategoria}</h4>
+                    <h4>Marca: {producto.Marca}</h4>
+                    <p className="mt-4">{producto.Descripcion}</p>
+                    <p className="mt-4">${formatearPrecio(producto.Precio)}</p>
+                    <p style={{ marginTop: "-3%" }}>
+                      Cantidad Actual: {producto.Cantidad}
+                    </p>
                   </div>
-                  <NavLink to="Carrito" className="">
-                    <button href="#" className="btn btn-dark w-100 mt-auto">
+                  {producto.Cantidad === 0 ? (
+                    <button className="btn btn-dark w-100 mt-auto" disabled>
+                      Sin Stock
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-dark w-100 mt-auto"
+                      onClick={() => {
+                        handleClick(producto);
+                      }}
+                    >
                       Agregar al carrito
                     </button>
-                  </NavLink>
+                  )}
                 </div>
               </div>
             );
@@ -159,7 +209,7 @@ const Productos = () => {
       </Modal>
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Carrito de compras</Offcanvas.Title>
+          <Offcanvas.Title>Carrito2 de compras</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className="fixed-body">
           <div className="d-flex">
@@ -214,7 +264,7 @@ const Productos = () => {
       <div
         className="modal fade bg-white"
         id="templatemo_search"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -314,14 +364,20 @@ const Productos = () => {
                                   <i className="far fa-eye"></i>
                                 </a>
                               </li>
-                              <li>
-                                <a
-                                  className="btn btn-success text-white mt-2"
-                                  onClick={handleShow}
-                                >
-                                  <i className="fas fa-cart-plus"></i>
-                                </a>
-                              </li>
+                              {producto.Cantidad === 0 ? (
+                                <li></li>
+                              ) : (
+                                <li>
+                                  <a
+                                    className="btn btn-success text-white mt-2"
+                                    onClick={() => {
+                                      handleClick(producto);
+                                    }}
+                                  >
+                                    <i className="fas fa-cart-plus"></i>
+                                  </a>
+                                </li>
+                              )}
                             </ul>
                           </div>
                         </div>
@@ -329,20 +385,19 @@ const Productos = () => {
                           <a className="h3 text-decoration-none d-flex justify-content-center">
                             {producto.Nombre}
                           </a>
-                          <ul className="w-100 list-unstyled d-flex justify-content-center mb-0">
-                            <li>{producto.Marca}</li>
-                          </ul>
                           <ul className="list-unstyled d-flex justify-content-center mb-1">
                             <li>
-                              <i className="text-warning fa fa-star"></i>
-                              <i className="text-warning fa fa-star"></i>
-                              <i className="text-warning fa fa-star"></i>
-                              <i className="text-warning fa fa-star"></i>
-                              <i className="text-muted fa fa-star"></i>
+                              Cantidad:{" "}
+                              <strong style={{ color: "#722CCE" }}>
+                                {producto.Cantidad}
+                              </strong>
                             </li>
                           </ul>
-                          <p className="text-center mb-0">
-                            $ {producto.Precio}
+                          <p
+                            className="text-center mb-0"
+                            style={{ color: "#722CCE" }}
+                          >
+                            $ {formatearPrecio(producto.Precio)}
                           </p>
                         </div>
                       </div>
@@ -402,12 +457,12 @@ const Productos = () => {
                 </li>
                 <li>
                   <a className="text-decoration-none" href="#">
-                    Men's Shoes
+                    Mens Shoes
                   </a>
                 </li>
                 <li>
                   <a className="text-decoration-none" href="#">
-                    Women's Shoes
+                    Womens Shoes
                   </a>
                 </li>
                 <li>
@@ -471,7 +526,6 @@ const Productos = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="http://facebook.com/"
                   >
                     <i className="fab fa-facebook-f fa-lg fa-fw"></i>
@@ -480,7 +534,6 @@ const Productos = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.instagram.com/"
                   >
                     <i className="fab fa-instagram fa-lg fa-fw"></i>
@@ -489,7 +542,6 @@ const Productos = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://twitter.com/"
                   >
                     <i className="fab fa-twitter fa-lg fa-fw"></i>
@@ -498,7 +550,6 @@ const Productos = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.linkedin.com/"
                   >
                     <i className="fab fa-linkedin fa-lg fa-fw"></i>
@@ -507,9 +558,7 @@ const Productos = () => {
               </ul>
             </div>
             <div className="col-auto">
-              <label className="sr-only" for="subscribeEmail">
-                Email address
-              </label>
+              <label className="sr-only">Email address</label>
               <div className="input-group mb-2">
                 <input
                   type="text"
@@ -531,11 +580,7 @@ const Productos = () => {
               <div className="col-12">
                 <p className="text-left text-light">
                   Copyright &copy; 2021 Company Name | Designed by{" "}
-                  <a
-                    rel="sponsored"
-                    href="https://templatemo.com"
-                    target="_blank"
-                  >
+                  <a rel="sponsored" href="https://templatemo.com">
                     TemplateMo
                   </a>
                 </p>

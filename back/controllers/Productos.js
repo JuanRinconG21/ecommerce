@@ -107,7 +107,7 @@ const VerDispo = async (req, res) => {
     let idProducto = req.params.id;
     let cantidadCliente = req.body.cantidad;
     const disponibilidad = await sequelize.query(
-      `SELECT producto.Cantidad FROM producto WHERE producto.idProducto = ${idProducto}`,
+      `SELECT Cantidad FROM producto WHERE producto.idProducto = ${idProducto}`,
       { type: QueryTypes.SELECT }
     );
     //console.log(disponibilidad[0].Cantidad);

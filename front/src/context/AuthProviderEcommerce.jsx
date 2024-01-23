@@ -42,8 +42,8 @@ export const AuthProviderEcommerce = ({ children }) => {
         return false;
       } else {
         const data = await request.json();
-        //console.log("LA DATA", data);
         setAutenticado(data.mensaje[0]);
+        //console.log(data.mensaje[0]);
       }
     } catch (error) {
       //console.log("OCURRIO UN ERROR");

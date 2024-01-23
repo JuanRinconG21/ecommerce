@@ -1,8 +1,85 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 
 const Carrito = () => {
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  const [productosCarrito, setProductosCarrito] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    verCarro();
+  }, []);
+  const verCarro = () => {
+    const productosGuardados =
+      JSON.parse(localStorage.getItem("productos")) || [];
+    setProductosCarrito(productosGuardados);
+    let total2 = productosGuardados.reduce(
+      (total, producto) => total + producto.precio * producto.cantidad,
+      0
+    );
+    setTotal(total2);
+    //console.log(total2);
+  };
+
+  const formatearPrecio = (precio) => {
+    return precio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
+  const handleEliminarDelLocalStorage = (productoId) => {
+    // Obtener la lista de productos desde el localStorage
+    const productosGuardados =
+      JSON.parse(localStorage.getItem("productos")) || [];
+
+    // Filtrar la lista para excluir el producto con el ID específico
+    const nuevaLista = productosGuardados.filter(
+      (producto) => producto.id !== productoId
+    );
+    //console.log(nuevaLista);
+    // Actualizar el localStorage con la nueva lista
+    localStorage.setItem("productos", JSON.stringify(nuevaLista));
+
+    // Actualizar el estado del componente con la nueva lista
+    setProductosCarrito([]);
+    setProductosCarrito(nuevaLista);
+    verCarro();
+  };
+
+  const handleActualizarCantidad = (id, nuevaCantidad) => {
+    verCarro();
+    const nuevoCarrito = productosCarrito
+      .map((producto) => {
+        if (producto.id === id) {
+          const cantidadMaxima = producto.cantidadMaxima;
+          // Asegurarse de que la nueva cantidad no supere la cantidad máxima
+          const cantidadActualizada = Math.min(nuevaCantidad, cantidadMaxima);
+          if (cantidadActualizada > 0 && producto.precio > 0) {
+            return {
+              ...producto,
+              cantidad: cantidadActualizada,
+              total: cantidadActualizada * producto.precio,
+            };
+          } else {
+            return null;
+          }
+        }
+        return producto;
+      })
+      .filter(Boolean);
+
+    localStorage.setItem("productos", JSON.stringify(nuevoCarrito));
+    setProductosCarrito(nuevoCarrito);
+    verCarro();
+  };
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
   return (
     <>
       <section className="container py-5">
@@ -13,7 +90,7 @@ const Carrito = () => {
         </div>
         <div className="row">
           <div className="col-8">
-            <div className="site-blocks-table">
+            <div className="site-blocks-table" style={{}}>
               <table className="table table-borderless table-bordered">
                 <thead>
                   <tr>
@@ -26,99 +103,126 @@ const Carrito = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <img
-                          width="100px"
-                          className="mb-0"
-                          src="https://websitedemos.net/egrow-plants-04/wp-content/uploads/sites/1114/2022/07/flower-008-a-400x550.jpg"
-                          alt=""
-                        />
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">Camiseta</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">$90.000</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <div
-                          className="input-group mb-3 d-flex align-items-center quantity-container"
-                          style={{ maxWidth: "120px" }}
-                        >
-                          <div className="input-group-prepend">
-                            <button
-                              className="btn btn-outline-black decrease"
-                              type="button"
-                            >
-                              -
-                            </button>
-                          </div>
-                          <input
-                            type="text"
-                            className="form-control text-center quantity-amount"
-                            value="1"
-                            placeholder=""
-                            aria-label="Example text with button addon"
-                            aria-describedby="button-addon1"
-                          />
-                          <div className="input-group-append">
-                            <button
-                              className="btn btn-outline-black increase"
-                              type="button"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">$90.000</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <IoIosCloseCircle />
-                      </div>
-                    </td>
-                  </tr>
+                  {productosCarrito.length > 0 ? (
+                    productosCarrito.map((producto) => {
+                      return (
+                        <tr key={producto.id}>
+                          <td className="align-middle">
+                            <div className="d-flex align-items-center">
+                              <img
+                                width="100px"
+                                className="mb-0"
+                                src={producto.imagen}
+                                alt=""
+                              />
+                            </div>
+                          </td>
+                          <td className="align-middle">
+                            <div className="d-flex align-items-center">
+                              <p className="mb-0">{producto.nombre}</p>
+                            </div>
+                          </td>
+                          <td className="align-middle">
+                            <div className="d-flex align-items-center">
+                              <p className="mb-0">
+                                ${formatearPrecio(producto.precio)}
+                              </p>
+                            </div>
+                          </td>
+                          <td className="align-middle">
+                            <div className="d-flex align-items-center">
+                              <div
+                                className="input-group mb-3 d-flex align-items-center quantity-container"
+                                style={{ maxWidth: "120px" }}
+                              >
+                                <input
+                                  type="number"
+                                  value={producto.cantidad}
+                                  onChange={(e) =>
+                                    handleActualizarCantidad(
+                                      producto.id,
+                                      e.target.value
+                                    )
+                                  }
+                                  max={producto.cantidadMaxima}
+                                  min={0}
+                                  className="form-control text-center quantity-amount"
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td className="align-middle">
+                            <div className="d-flex align-items-center">
+                              <p className="mb-0">
+                                ${formatearPrecio(producto.total)}
+                              </p>
+                            </div>
+                          </td>
+                          <td className="align-middle">
+                            <div className="d-flex align-items-center">
+                              <a
+                                onClick={() => {
+                                  handleEliminarDelLocalStorage(producto.id);
+                                }}
+                              >
+                                <IoIosCloseCircle />
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <h3 style={{ position: "absolute" }} className="ms-5">
+                        No Hay Productos en el Carrito de Compras
+                      </h3>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
           <div className="col-4">
-            <div class="card">
-              <div class="card-header">Total Carrito</div>
-              <div class="card-body">
+            <div className="card">
+              <div className="card-header">Total Carrito</div>
+              <div className="card-body">
                 <div className="d-flex">
-                  <p class="card-text mt-3">Subtotal:</p>
-                  <p class="card-text mt-3 ms-5 ">$90.000</p>
+                  <p className="card-text mt-3">Subtotal:</p>
+                  <p className="card-text mt-3 ms-5 ">
+                    ${formatearPrecio(total)}
+                  </p>
                 </div>
                 <hr />
                 <div className="d-flex">
-                  <p class="card-text mt-3">Total:</p>
-                  <p class="card-text mt-3 ms-5">$90.000</p>
+                  <p className="card-text mt-3">Total:</p>
+                  <p className="card-text mt-3 ms-5">
+                    ${formatearPrecio(total)}
+                  </p>
                 </div>
                 <hr />
-                <NavLink to="/Ecommerce/Pasarela" className="">
-                  <button href="#" class="btn btn-success w-100 mt-4">
-                    Ir a pagar
-                  </button>
-                </NavLink>
-                <NavLink to="/Ecommerce" className="">
-                  <button href="#" class="btn btn-dark w-100 mt-3">
-                    Seguir comprando
-                  </button>
-                </NavLink>
+                {productosCarrito.length > 0 ? (
+                  <>
+                    <NavLink to="/Ecommerce/Pasarela" className="">
+                      <button href="#" className="btn btn-success w-100 mt-4">
+                        Ir a pagar
+                      </button>
+                    </NavLink>
+                    <NavLink to="/Ecommerce" className="">
+                      <button href="#" className="btn btn-dark w-100 mt-3">
+                        Seguir comprando
+                      </button>
+                    </NavLink>
+                  </>
+                ) : (
+                  <>
+                    <NavLink to="/Ecommerce" className="">
+                      <button href="#" className="btn btn-dark w-100 mt-3">
+                        Ir a comprar
+                      </button>
+                    </NavLink>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -172,12 +276,12 @@ const Carrito = () => {
                 </li>
                 <li>
                   <a className="text-decoration-none" href="#">
-                    Men's Shoes
+                    Mens Shoes
                   </a>
                 </li>
                 <li>
                   <a className="text-decoration-none" href="#">
-                    Women's Shoes
+                    Womens Shoes
                   </a>
                 </li>
                 <li>
@@ -242,7 +346,6 @@ const Carrito = () => {
                   <a
                     rel="nofollow"
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="http://fb.com/templatemo"
                   >
                     <i className="fab fa-facebook-f fa-lg fa-fw"></i>
@@ -251,7 +354,6 @@ const Carrito = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.instagram.com/"
                   >
                     <i className="fab fa-instagram fa-lg fa-fw"></i>
@@ -260,7 +362,6 @@ const Carrito = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://twitter.com/"
                   >
                     <i className="fab fa-twitter fa-lg fa-fw"></i>
@@ -269,7 +370,6 @@ const Carrito = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.linkedin.com/"
                   >
                     <i className="fab fa-linkedin fa-lg fa-fw"></i>
@@ -278,9 +378,7 @@ const Carrito = () => {
               </ul>
             </div>
             <div className="col-auto">
-              <label className="sr-only" for="subscribeEmail">
-                Email address
-              </label>
+              <label className="sr-only">Email address</label>
               <div className="input-group mb-2">
                 <input
                   type="text"
@@ -302,11 +400,7 @@ const Carrito = () => {
               <div className="col-12">
                 <p className="text-left text-light">
                   Copyright &copy; 2021 Company Name | Designed by{" "}
-                  <a
-                    rel="sponsored"
-                    href="https://templatemo.com/page/1"
-                    target="_blank"
-                  >
+                  <a rel="sponsored" href="https://templatemo.com/page/1">
                     TemplateMo
                   </a>
                 </p>

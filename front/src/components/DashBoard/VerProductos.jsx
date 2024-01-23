@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Swal2 from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal2);
@@ -73,20 +73,24 @@ const VerProductos = () => {
       <div className="row">
         {datos.map((dato) => {
           return (
-            <div className="col-4">
+            <div className="col-4" key={dato.idProducto}>
               <div className="card" style={{ width: "100%" }}>
-                <img src={dato.Imagen1} class="card-img-top" alt="..." />
+                <img src={dato.Imagen1} className="card-img-top" alt="..." />
                 <div className="card-body">
                   <h4 className="card-title text-center">
                     Producto #{dato.idProducto}{" "}
                   </h4>
                   <p className="card-text">
-                    <ul class="list-group">
-                      <li class="list-group-item">Nombre: {dato.Nombre} </li>
-                      <li class="list-group-item">Marca: {dato.Marca} </li>
-                      <li class="list-group-item">Precio: {dato.Precio}</li>
-                      <li class="list-group-item">Stock: {dato.Cantidad}</li>
-                      <li class="list-group-item">
+                    <ul className="list-group">
+                      <li className="list-group-item">
+                        Nombre: {dato.Nombre}{" "}
+                      </li>
+                      <li className="list-group-item">Marca: {dato.Marca} </li>
+                      <li className="list-group-item">Precio: {dato.Precio}</li>
+                      <li className="list-group-item">
+                        Stock: {dato.Cantidad}
+                      </li>
+                      <li className="list-group-item">
                         Categoria: {dato.DescripcionCategoria}
                       </li>
                     </ul>
@@ -98,7 +102,7 @@ const VerProductos = () => {
                       }}
                       className="btn btn-danger mr-2"
                     >
-                      <i class="fas fa-trash"></i>
+                      <i className="fas fa-trash"></i>
                     </button>
                     <button
                       onClick={() => {
@@ -107,7 +111,7 @@ const VerProductos = () => {
                       }}
                       className="btn btn-warning mr-2"
                     >
-                      <i class="fas fa-edit"></i>
+                      <i className="fas fa-edit"></i>
                     </button>
                   </center>
                 </div>

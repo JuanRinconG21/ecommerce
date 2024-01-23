@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { NavLink } from "react-router-dom";
 import { IoIosCloseCircle } from "react-icons/io";
-
 const NavBar = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -11,6 +10,53 @@ const NavBar = () => {
   const handleShow = () => {
     setShow(true);
   };
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  const [productosCarrito, setProductosCarrito] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  const verCarro = () => {
+    const productosGuardados =
+      JSON.parse(localStorage.getItem("productos")) || [];
+    setProductosCarrito(productosGuardados);
+    let total2 = productosGuardados.reduce(
+      (total, producto) => total + producto.precio * producto.cantidad,
+      0
+    );
+    setTotal(total2);
+    //console.log(total2);
+  };
+
+  const formatearPrecio = (precio) => {
+    return precio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
+  const handleEliminarDelLocalStorage = (productoId) => {
+    // Obtener la lista de productos desde el localStorage
+    const productosGuardados =
+      JSON.parse(localStorage.getItem("productos")) || [];
+
+    // Filtrar la lista para excluir el producto con el ID específico
+    const nuevaLista = productosGuardados.filter(
+      (producto) => producto.id !== productoId
+    );
+    //console.log(nuevaLista);
+    // Actualizar el localStorage con la nueva lista
+    localStorage.setItem("productos", JSON.stringify(nuevaLista));
+
+    // Actualizar el estado del componente con la nueva lista
+    setProductosCarrito([]);
+    setProductosCarrito(nuevaLista);
+    verCarro();
+  };
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
   return (
     <>
       <Offcanvas show={show} onHide={handleClose} placement="end">
@@ -18,77 +64,78 @@ const NavBar = () => {
           <Offcanvas.Title>Carrito de compras</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className="fixed-body">
+          {productosCarrito.length > 0 ? (
+            productosCarrito.map((producto) => {
+              return (
+                <div className="d-flex" key={producto.id}>
+                  <div className="p-2 flex-fill">
+                    <img
+                      width="100px"
+                      className=""
+                      src={producto.imagen}
+                      alt=""
+                      style={{ borderRadius: "5px" }}
+                    />
+                  </div>
+                  <div className="p-2 pt-5 flex-fill">
+                    <p>{producto.nombre}</p>
+                    <p>$ {formatearPrecio(producto.precio)}</p>
+                  </div>
+                  <div className="p-2 flex-fill align-self-center">
+                    <a
+                      onClick={() => {
+                        handleEliminarDelLocalStorage(producto.id);
+                      }}
+                    >
+                      <IoIosCloseCircle />
+                    </a>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="" style={{ textAlign: "center" }}>
+              <div className="p-2">No Hay Productos En El Carrito</div>
+            </div>
+          )}
           <div className="d-flex">
-            <div className="p-2 flex-fill">
-              <img
-                width="100px"
-                className=""
-                src="https://websitedemos.net/egrow-plants-04/wp-content/uploads/sites/1114/2022/07/flower-008-a-400x550.jpg"
-                alt=""
-                style={{ borderRadius: "5px" }}
-              />
-            </div>
-            <div class="p-2 flex-fill">
-              <p>Camiseta</p>
-              <p>$ 120.000</p>
-              <div
-                className="input-group mb-3 d-flex align-items-center quantity-container"
-                style={{ maxWidth: "120px" }}
-              >
-                <div className="input-group-prepend">
-                  <button
-                    className="btn btn-outline-black decrease"
-                    type="button"
-                  >
-                    -
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  className="form-control text-center quantity-amount"
-                  value="1"
-                  placeholder=""
-                  aria-label="Example text with button addon"
-                  aria-describedby="button-addon1"
-                />
-                <div className="input-group-append">
-                  <button
-                    className="btn btn-outline-black increase"
-                    type="button"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="p-2 flex-fill align-self-center">
-              <IoIosCloseCircle />
-            </div>
+            <div className="p-2">Total:</div>
+            <div className="ms-auto p-2">$ {formatearPrecio(total)}</div>
           </div>
-          <div class="d-flex">
-            <div class="p-2">Total:</div>
-            <div class="ms-auto p-2">$ 120.000</div>
-          </div>
-          <NavLink to="/Ecommerce/Pasarela" className="">
-            <button
-              href="#"
-              class="btn btn-success w-100 mt-4"
-              closeButton
-              onClick={handleClose}
-            >
-              Pagar ahora
-            </button>
-          </NavLink>
-          <NavLink to="Carrito" className="">
-            <button
-              href="#"
-              class="btn btn-dark w-100 mt-3"
-              closeButton
-              onClick={handleClose}
-            >
-              ver carrito
-            </button>
-          </NavLink>
+          {productosCarrito.length > 0 ? (
+            <>
+              <NavLink to="/Ecommerce/Pasarela" className="">
+                <button
+                  href="#"
+                  className="btn btn-success w-100 mt-4"
+                  onClick={handleClose}
+                >
+                  Pagar ahora
+                </button>
+              </NavLink>
+              <NavLink to="Carrito" className="">
+                <button
+                  href="#"
+                  className="btn btn-dark w-100 mt-3"
+                  onClick={handleClose}
+                >
+                  Ver carrito
+                </button>
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink to="Productos" className="">
+                <button
+                  href="#"
+                  className="btn btn-success w-100 mt-4"
+                  onClick={handleClose}
+                >
+                  Agregar Productos
+                </button>
+              </NavLink>
+            </>
+          )}
         </Offcanvas.Body>
       </Offcanvas>
       <nav className="navbar navbar-expand-lg navbar-light shadow">
@@ -158,7 +205,11 @@ const NavBar = () => {
               </a>
               <a
                 className="nav-icon position-relative text-decoration-none"
-                onClick={handleShow}
+                onClick={() => {
+                  verCarro();
+
+                  handleShow();
+                }}
               >
                 <i className="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                 <span className="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>

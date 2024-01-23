@@ -83,6 +83,7 @@ const Inicio = () => {
                 <th scope="col">Apellido/s</th>
                 <th scope="col">Telefono</th>
                 <th scope="col">Direccion</th>
+                <th scope="col">Ciudad</th>
                 <th scope="col">Correo</th>
 
                 <th scope="col">Acciones</th>
@@ -91,12 +92,13 @@ const Inicio = () => {
             <tbody className="text-center">
               {datos.map((dato) => {
                 return (
-                  <tr>
+                  <tr key={dato.idUsuario}>
                     <th scope="row">{dato.idUsuario}</th>
                     <td>{dato.Nombres}</td>
                     <td>{dato.Apellidos}</td>
                     <td>{dato.Telefono}</td>
                     <td>{dato.Direccion}</td>
+                    <td>{dato.Ciudad}</td>
                     <td>{dato.Correo}</td>
 
                     <td>
@@ -109,7 +111,7 @@ const Inicio = () => {
                         }}
                         className="btn btn-danger mr-2"
                       >
-                        <i class="fas fa-trash"></i>
+                        <i className="fas fa-trash"></i>
                       </button>
                       <button
                         onClick={() => {
@@ -118,7 +120,7 @@ const Inicio = () => {
                         }}
                         className="btn btn-warning mr-2"
                       >
-                        <i class="fas fa-edit"></i>
+                        <i className="fas fa-edit"></i>
                       </button>
                     </td>
                     {Editar == dato.idUsuario && (

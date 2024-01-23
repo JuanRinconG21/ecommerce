@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, type) => {
   return sequelize.define(
     "usuario",
@@ -23,6 +22,9 @@ module.exports = (sequelize, type) => {
         type: type.STRING(256),
       },
       Pass: {
+        type: type.STRING(256),
+      },
+      Ciudad: {
         type: type.STRING(256),
       },
     },

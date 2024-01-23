@@ -83,7 +83,7 @@ const Pedidos = () => {
             <tbody className="text-center">
               {pedidos.map((pedido) => {
                 return (
-                  <tr>
+                  <tr key={pedido.id}>
                     <th scope="row">{pedido.idEncabezado}</th>
                     <th scope="col">{pedido.FechayHora}</th>
                     <th scope="col">
@@ -105,7 +105,7 @@ const Pedidos = () => {
                           Actualizar(pedido.idEncabezado);
                         }}
                       >
-                        <i class="fas fa-edit"></i>
+                        <i className="fas fa-edit"></i>
                       </button>
                     </th>
                   </tr>

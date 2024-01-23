@@ -4,6 +4,7 @@ const ProductosController = require("../controllers/Productos");
 const { Products } = require("../models/Conexion");
 const multer = require("multer");
 const auth = require("../controllers/auth");
+const sharp = require("sharp");
 
 /**
  * Funcion para Capturar Datos de una Imagen y Guardarla
@@ -27,6 +28,14 @@ const upload = multer({
     fileSize: 50 * 1024 * 1024, // Tamaño máximo: 50 MB
   },
 });
+
+/**
+ * RESIZE
+ */
+
+const HelpImg = (filePath, nombre, size = 300) => {
+  return sharp(filePath).resize(size, size).toFile(`./uploads/${nombre}`);
+};
 
 router.get(
   "/productos/listar/:pagina?",
@@ -55,9 +64,14 @@ router.post(
     try {
       console.table(req.body);
       console.log("REQ FILE 2", req.file);
+      // Redimensionar la imagen antes de almacenarla
+      // Ruta completa del archivo
+      const filePath = req.file.path;
+      // Redimensionar la imagen antes de almacenarla
       const originalname = req.file.filename;
-
-      const imagePath = `http://localhost:2100/${originalname}`;
+      HelpImg(req.file.path, "resize-" + originalname, 300);
+      //Guardar
+      const imagePath = `http://localhost:2100/${"resize-" + originalname}`;
       const Producto = await Products.create({
         ...req.body,
         Imagen1: imagePath,
@@ -77,6 +91,7 @@ router.put(
   auth,
   async (req, res) => {
     try {
+      const resizedImageBuffer = await resizeImage(req.file.buffer);
       const originalname = req.file.filename;
       const imagePath = `http://localhost:2100/${originalname}`;
       const Producto = await Products.update(
@@ -104,6 +119,10 @@ router.get(
   ProductosController.ListarProductoXid
 );
 
-router.get("/productos/disponibilidad/:id", auth, ProductosController.VerDispo);
+router.post(
+  "/productos/disponibilidad/:id",
+  auth,
+  ProductosController.VerDispo
+);
 
 module.exports = router;

@@ -170,7 +170,7 @@ const AgregarProductos = () => {
               >
                 {datos.map((dato) => {
                   return (
-                    <option value={dato.idCategoria}>
+                    <option key={dato.idCategoria} value={dato.idCategoria}>
                       {dato.DescripcionCategoria}
                     </option>
                   );

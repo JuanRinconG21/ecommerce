@@ -37,6 +37,7 @@ const Registro = () => {
       const inputDireccion = document.querySelector("#Direccion");
       const inputEmail = document.querySelector("#Correo");
       const inputPass = document.querySelector("#Pass");
+      const inputCity = document.querySelector("#Ciudad");
       inputId.value = "";
       inputNombre.value = "";
       inputApellido.value = "";
@@ -44,6 +45,7 @@ const Registro = () => {
       inputDireccion.value = "";
       inputEmail.value = "";
       inputPass.value = "";
+      inputCity.value = "";
       let mensaje = data.mensaje;
       MySwal.fire({
         title: <strong> {"Error"}</strong>,
@@ -122,7 +124,16 @@ const Registro = () => {
                         />
                       </div>
                     </div>
-
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control form-control-user Correo"
+                        name="Ciudad"
+                        id="Ciudad"
+                        placeholder="Ciudad"
+                        onChange={cambiar}
+                      />
+                    </div>
                     <div className="form-group">
                       <input
                         type="email"

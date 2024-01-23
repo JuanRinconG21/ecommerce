@@ -1,8 +1,324 @@
-import React, { useState, useEffect } from "react";
-import HelperForm from "../../helpers/HelperForm";
-
+import { useState, useEffect } from "react";
+//import HelperForm from "../../helpers/HelperForm";
+import { NavLink } from "react-router-dom";
+import { AuthProviderEcommerce } from "../../context/AuthProviderEcommerce";
+import UseAuthEcommerce from "../../helpers/UseAuthEcommerce";
+import Swal2 from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal2);
 const PasarelaPago = () => {
-  const { form, cambiar } = HelperForm({});
+  const { Autenticado } = UseAuthEcommerce();
+  const token = localStorage.getItem("token2");
+  //console.log("EL ID USUARIO: " + Autenticado.idUsuario);
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  ///INICIO CARRITO
+  const [productosCarrito, setProductosCarrito] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [envio, setEnvio] = useState(0);
+  const [totalFinal, setTotalFinal] = useState(0);
+  const [metodos, setMetodos] = useState([]);
+  const [error, setError] = useState(null);
+  const [error2, setError2] = useState(null);
+  useEffect(() => {
+    verCarro();
+    cargarMetodos();
+  }, []);
+  const verCarro = () => {
+    const productosGuardados =
+      JSON.parse(localStorage.getItem("productos")) || [];
+    setProductosCarrito(productosGuardados);
+    let total2 = productosGuardados.reduce(
+      (total, producto) => total + producto.precio * producto.cantidad,
+      0
+    );
+    setTotal(total2);
+    setEnvio(total2 * 0.1);
+    setTotalFinal(total2 + total2 * 0.1);
+    //console.log(total2);
+  };
+
+  const cargarMetodos = async () => {
+    const request = await fetch("http://localhost:2100/metodos/listar", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `${token}`,
+      },
+    });
+    const data = await request.json();
+    setMetodos(data.mensaje);
+  };
+
+  const formatearPrecio = (precio) => {
+    return precio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
+  ///FIN CARRITO
+  const obtenerFechaYHoraActual = () => {
+    const fechaActual = new Date();
+
+    // Restar 5 horas a la hora actual
+    fechaActual.setHours(fechaActual.getHours() - 5);
+
+    const año = fechaActual.getFullYear();
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, "0");
+    const dia = String(fechaActual.getDate()).padStart(2, "0");
+
+    const horas = String(fechaActual.getHours()).padStart(2, "0");
+    const minutos = String(fechaActual.getMinutes()).padStart(2, "0");
+    const segundos = String(fechaActual.getSeconds()).padStart(2, "0");
+
+    const fechaFormateada = `${año}-${mes}-${dia}`;
+    const horaFormateada = `${horas}:${minutos}:${segundos}`;
+
+    return `${fechaFormateada} ${horaFormateada}`;
+  };
+  const verificarDispo = async (id, cantidad) => {
+    try {
+      const response = await fetch(
+        `http://localhost:2100/productos/disponibilidad/${id}`,
+        {
+          method: "POST", // Método POST ya que se está enviando datos en el cuerpo
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+          body: JSON.stringify({ cantidad: cantidad }),
+        }
+      );
+
+      const data = await response.json();
+      return data.mensaje;
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      return false;
+    }
+  };
+
+  const InsertarEncabezado = async (
+    FechayHora,
+    Total,
+    idEstado,
+    idUsuario,
+    idMetodo
+  ) => {
+    try {
+      const response = await fetch(
+        `http://localhost:2100/encabezados/agregar`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+          body: JSON.stringify({
+            FechayHora,
+            Total,
+            idEstado,
+            idUsuario,
+            idMetodo,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      if (data.id === 200) {
+        return { status: 200 };
+      } else {
+        return { status: 400, errorMessage: data.errorMessage }; // Puedes incluir más detalles del error si es necesario
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      return { status: 400, errorMessage: "Error de conexión" };
+    }
+  };
+
+  //Funcion para insertarYActualizarInoformacion
+  const ActualizarInfoYEncabezado = async (e) => {
+    e.preventDefault();
+    verCarro();
+    if (productosCarrito.length > 0) {
+      //RECORRO EL CARRITO PARA VER LA DISPOMIBILIDAD
+      // Iterar sobre los productos del carrito y realizar el fetch para cada uno
+      for (const producto of productosCarrito) {
+        const disponible = await verificarDispo(producto.id, producto.cantidad);
+
+        if (!disponible) {
+          setError(`El producto "${producto.nombre}" no está disponible.`);
+          MySwal.fire({
+            title: <strong> {"Error"}</strong>,
+            html: (
+              <i>{`El producto "${producto.nombre}" no está disponible.`}</i>
+            ),
+            icon: "error",
+          });
+          return; // Detener el proceso si un producto no está disponible
+        }
+      }
+      // Si todos los productos están disponibles, continuar con la lógica de finalizar la compra
+      setError(null);
+      // ... (Lógica para finalizar la compra)
+      if (error === null) {
+        const idUsuario = document.querySelector("#idUsuario");
+        const Correo = document.querySelector("#Correo");
+        const Nombres = document.querySelector("#Nombres");
+        const Apellidos = document.querySelector("#Apellidos");
+        const Telefono = document.querySelector("#Telefono");
+        const Direccion = document.querySelector("#Direccion");
+        const Ciudad = document.querySelector("#Ciudad");
+        const Pass = document.querySelector("#Pass");
+        const metodoPago = document.querySelector("#metodoPago");
+        if (
+          idUsuario.value.length > 0 &&
+          Correo.value.length > 0 &&
+          Nombres.value.length > 0 &&
+          Telefono.value.length > 0 &&
+          Direccion.value.length > 0 &&
+          Ciudad.value.length > 0 &&
+          Pass.value.length > 0 &&
+          Apellidos.value.length > 0
+        ) {
+          const request = await fetch(
+            `http://localhost:2100/usuarios/Editar/${idUsuario.value}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                Nombres: Nombres.value,
+                Apellidos: Apellidos.value,
+                Telefono: Telefono.value,
+                Direccion: Direccion.value,
+                Correo: Correo.value,
+                Pass: Pass.value,
+                Ciudad: Ciudad.value,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `${token}`,
+              },
+            }
+          );
+          const data = await request.json();
+          if (data.id == 200) {
+            let fechayhora = obtenerFechaYHoraActual();
+            let respuestaEnca = InsertarEncabezado(
+              fechayhora,
+              totalFinal,
+              0,
+              idUsuario.value,
+              metodoPago.value
+            );
+            respuestaEnca = (await respuestaEnca).status;
+            if (respuestaEnca === 200) {
+              //ACA SE INSERTA EL DETALLE
+              try {
+                let i = 1;
+                // Iterar sobre los detalles y enviar cada uno al servidor
+                for (const producto of productosCarrito) {
+                  //const { Cantidad, TotalProd, idProducto } = detalle;
+                  let id = producto.id;
+                  let cantidad = producto.cantidad;
+                  let totalProd = producto.total;
+                  const response = await fetch(
+                    "http://localhost:2100/detalle/Agregar",
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${token}`,
+                      },
+                      body: JSON.stringify({
+                        Cantidad: cantidad,
+                        Totalprod: totalProd,
+                        idProducto: id,
+                      }),
+                    }
+                  );
+                  const data = await response.json();
+                  console.log(data);
+                  if (data.id === 400) {
+                    MySwal.fire({
+                      title: <strong> {"Error"}</strong>,
+                      html: <i>{"Error al Comprar, Contacte a Soporte"}</i>,
+                      icon: "error",
+                    });
+
+                    break;
+                  } else {
+                    MySwal.fire({
+                      title: <strong> {"Felicitaciones"}</strong>,
+                      html: (
+                        <i>
+                          {
+                            "Compra Agregada Correctamente \nPronto Recibiras Informacion a Tu Correo Electronico"
+                          }
+                        </i>
+                      ),
+                      icon: "success",
+                    });
+                    localStorage.removeItem("productos");
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 3000);
+                  }
+                  i = i + 1;
+                }
+                // Puedes agregar lógica aquí si necesitas realizar alguna acción después de enviar todos los detalles
+                if (error2 == null) {
+                  console.log("TODO MELITO");
+                } else if (error2 === true) {
+                  console.log("NADA MELITO");
+                }
+                // Limpiar el localStorage después de enviar los detalles
+              } catch (error) {
+                console.error("Error durante el proceso de envío:", error);
+                // Puedes manejar el error aquí
+              }
+              console.log("TODO BEN");
+            } else {
+              MySwal.fire({
+                title: <strong> {"Error"}</strong>,
+                html: <i>{"Error al Comprar"}</i>,
+                icon: "error",
+              });
+            }
+          } else {
+            let mensaje = data.mensaje;
+            MySwal.fire({
+              title: <strong> {"Error"}</strong>,
+              html: <i>{mensaje || data.error}</i>,
+              icon: "error",
+            });
+          }
+        } else {
+          MySwal.fire({
+            title: <strong> {"Error"}</strong>,
+            html: <i>{"No deje Campos Vacios"}</i>,
+            icon: "error",
+          });
+        }
+      } else {
+        MySwal.fire({
+          title: <strong> {"Error"}</strong>,
+          html: <i>{error}</i>,
+          icon: "error",
+        });
+      }
+    } else {
+      MySwal.fire({
+        title: <strong> {"Error"}</strong>,
+        html: <i>{"Agregue Productos Al Carrito Antes de Comprar"}</i>,
+        icon: "error",
+      });
+    }
+  };
+
+  //const { form, cambiar } = HelperForm({});
   return (
     <>
       <section className="container py-5">
@@ -10,15 +326,21 @@ const PasarelaPago = () => {
           <div className="row">
             <div className="col-7">
               <h1 className="h1 text-start">Datos de envio</h1>
+              <h3 className="h3 text-start">
+                Nota: Si quieres actualizar tu informacion de envio cambia tus
+                datos aca.
+              </h3>
               <form className="user mt-4">
                 <div className="form-group">
                   <input
+                    readOnly
                     type="number"
                     className="form-control form-control-user idUsuario"
                     id="idUsuario"
                     name="idUsuario"
                     placeholder="Identificacion"
-                    onChange={cambiar}
+                    defaultValue={Autenticado.idUsuario}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -28,7 +350,8 @@ const PasarelaPago = () => {
                     id="Correo"
                     name="Correo"
                     placeholder="Correo Electronico"
-                    onChange={cambiar}
+                    defaultValue={Autenticado.Correo}
+                    required
                   />
                 </div>
                 <div className="form-group row">
@@ -39,7 +362,8 @@ const PasarelaPago = () => {
                       id="Nombres"
                       name="Nombres"
                       placeholder="Nombre/s"
-                      onChange={cambiar}
+                      defaultValue={Autenticado.Nombres}
+                      required
                     />
                   </div>
                   <div className="col-sm-6">
@@ -49,7 +373,8 @@ const PasarelaPago = () => {
                       id="Apellidos"
                       name="Apellidos"
                       placeholder="Apellido/s"
-                      onChange={cambiar}
+                      defaultValue={Autenticado.Apellidos}
+                      required
                     />
                   </div>
                 </div>
@@ -61,7 +386,8 @@ const PasarelaPago = () => {
                       id="Telefono"
                       name="Telefono"
                       placeholder="Telefono"
-                      onChange={cambiar}
+                      defaultValue={Autenticado.Telefono}
+                      required
                     />
                   </div>
                   <div className="col-sm-6">
@@ -71,7 +397,8 @@ const PasarelaPago = () => {
                       id="Direccion"
                       name="Direccion"
                       placeholder="Direccion"
-                      onChange={cambiar}
+                      defaultValue={Autenticado.Direccion}
+                      required
                     />
                   </div>
                 </div>
@@ -82,50 +409,120 @@ const PasarelaPago = () => {
                     name="Ciudad"
                     id="Ciudad"
                     placeholder="Ciudad"
-                    onChange={cambiar}
+                    defaultValue={Autenticado.Ciudad}
+                    required
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-success btn-user btn-block mt-4"
-                  style={{ fontSize: "120%" }}
-                >
-                  Pagar
-                </button>
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className="form-control form-control-user Correo"
+                    name="Pass"
+                    id="Pass"
+                    placeholder="Contraseña"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <select
+                    name="metodoPago"
+                    id="metodoPago"
+                    className="form-control"
+                    style={{ borderRadius: "20px", fontSize: "120%" }}
+                  >
+                    {metodos.map((metodo) => {
+                      return (
+                        <option key={metodo.idMetodo} value={metodo.idMetodo}>
+                          {metodo.Descripcion}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                {productosCarrito.length > 0 ? (
+                  <button
+                    type="button"
+                    className="btn btn-success btn-user btn-block mt-4"
+                    style={{ fontSize: "120%" }}
+                    onClick={(e) => {
+                      ActualizarInfoYEncabezado(e);
+                    }}
+                  >
+                    Pagar
+                  </button>
+                ) : (
+                  <NavLink to="Productos">
+                    <button
+                      type="submit"
+                      className="btn btn-success btn-user btn-block mt-4"
+                      style={{ fontSize: "120%" }}
+                    >
+                      Agregar Productos
+                    </button>
+                  </NavLink>
+                )}
               </form>
             </div>
             <div className="col-1 d-flex">
-              <div class="vertical-line"></div>
+              <div className="vertical-line"></div>
             </div>
             <div className="col-4">
               <h2 className="mb-4 text-start">Productos</h2>
               <div className="card">
-                <div className="d-flex flex-row">
-                  <div class="p-2 ">
-                    <img
-                      width="70px"
-                      className=""
-                      src="https://websitedemos.net/egrow-plants-04/wp-content/uploads/sites/1114/2022/07/flower-008-a-400x550.jpg"
-                      alt=""
-                      style={{ borderRadius: "5px" }}
-                    />
+                {productosCarrito.length > 0 ? (
+                  productosCarrito.map((product) => {
+                    return (
+                      <div className="container-fluid" key={product.id}>
+                        <div className="row">
+                          <div className="col-6">
+                            <img
+                              width="80px"
+                              className="mt-4"
+                              src={product.imagen}
+                              alt=""
+                              style={{ borderRadius: "5px" }}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <p>{product.nombre}</p>
+                            <p>X{product.cantidad}</p>
+                            <p>$ {formatearPrecio(product.precio)}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="d-flex flex-row text-center">
+                    <div className="p-2 ">
+                      <h1>No Hay Productos Disponibles</h1>
+                      <p>:(</p>
+                    </div>
                   </div>
-                  <div class="p-2 ">
-                    <p>Camiseta</p>
-                    <p>X12</p>
-                  </div>
-                  <div class="ms-5 p-2 d-flex align-items-end flex-column mt-auto">
-                    <p>$ 120.000</p>
-                  </div>
+                )}
+              </div>
+              <div className="d-flex mt-5">
+                <div className="p-2">Subtotal:</div>
+                <div className="ms-auto p-2">${formatearPrecio(total)}</div>
+              </div>
+              <div className="d-flex">
+                <div className="p-2">Envio: </div>
+                <div className="ms-auto p-2">${formatearPrecio(envio)}</div>
+              </div>
+              <div className="d-flex">
+                <div className="p-2">
+                  <strong style={{ fontSize: "70%" }}>
+                    Nota: El Envio Es El 10% del Valor De Tu Compra
+                    <br />
+                  </strong>
                 </div>
               </div>
-              <div class="d-flex mt-5">
-                <div class="p-2">Subtotal:</div>
-                <div class="ms-auto p-2">$ 120.000</div>
-              </div>
-              <div class="d-flex mb-3 ">
-                <div class="p-2">Total:</div>
-                <div class="ms-auto p-2">$ 120.000</div>
+              <hr />
+              <div className="d-flex mb-3 ">
+                <div className="p-2">Total:</div>
+                <div className="ms-auto p-2">
+                  $ {formatearPrecio(totalFinal)}
+                </div>
               </div>
             </div>
           </div>
@@ -179,12 +576,12 @@ const PasarelaPago = () => {
                 </li>
                 <li>
                   <a className="text-decoration-none" href="#">
-                    Men's Shoes
+                    Hombres Shoes
                   </a>
                 </li>
                 <li>
                   <a className="text-decoration-none" href="#">
-                    Women's Shoes
+                    Mujeres Shoes
                   </a>
                 </li>
                 <li>
@@ -249,7 +646,6 @@ const PasarelaPago = () => {
                   <a
                     rel="nofollow"
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="http://fb.com/templatemo"
                   >
                     <i className="fab fa-facebook-f fa-lg fa-fw"></i>
@@ -258,7 +654,6 @@ const PasarelaPago = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.instagram.com/"
                   >
                     <i className="fab fa-instagram fa-lg fa-fw"></i>
@@ -267,7 +662,6 @@ const PasarelaPago = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://twitter.com/"
                   >
                     <i className="fab fa-twitter fa-lg fa-fw"></i>
@@ -276,7 +670,6 @@ const PasarelaPago = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.linkedin.com/"
                   >
                     <i className="fab fa-linkedin fa-lg fa-fw"></i>
@@ -285,9 +678,7 @@ const PasarelaPago = () => {
               </ul>
             </div>
             <div className="col-auto">
-              <label className="sr-only" for="subscribeEmail">
-                Email address
-              </label>
+              <label className="sr-only">Email address</label>
               <div className="input-group mb-2">
                 <input
                   type="text"
@@ -309,11 +700,7 @@ const PasarelaPago = () => {
               <div className="col-12">
                 <p className="text-left text-light">
                   Copyright &copy; 2021 Company Name | Designed by{" "}
-                  <a
-                    rel="sponsored"
-                    href="https://templatemo.com/page/1"
-                    target="_blank"
-                  >
+                  <a rel="sponsored" href="https://templatemo.com/page/1">
                     TemplateMo
                   </a>
                 </p>

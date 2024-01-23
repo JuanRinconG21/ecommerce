@@ -6,12 +6,12 @@ const jwt = require("jsonwebtoken");
 const ListarUser = async (req, res) => {
   try {
     const Users = await sequelize.query(
-      "SELECT usuario.idUsuario, usuario.Nombres, usuario.Apellidos, usuario.Telefono, usuario.Direccion, usuario.Correo FROM usuario",
+      "SELECT usuario.idUsuario, usuario.Nombres, usuario.Apellidos, usuario.Telefono, usuario.Direccion, usuario.Correo, usuario.Ciudad FROM usuario",
       { type: QueryTypes.SELECT }
     );
     res.send({ id: 200, mensaje: Users });
   } catch (error) {
-    res.send({ id: 400, mensaje: error.messages });
+    res.send({ id: 400, mensaje: error.message });
   }
 };
 
@@ -74,14 +74,14 @@ const EditarUser = async (req, res) => {
     );
     res.send({ id: 200, mensaje: "Usuario Actualizado" });
   } catch (error) {
-    res.send({ id: 400, mensaje: error.messages });
+    res.send({ id: 400, mensaje: error.message });
   }
 };
 
 const ListarUno = async (req, res) => {
   try {
     const Users = await sequelize.query(
-      `SELECT usuario.idUsuario, usuario.Nombres, usuario.Apellidos, usuario.Telefono, usuario.Direccion, usuario.Correo FROM usuario WHERE idUsuario=${req.params.id}`,
+      `SELECT usuario.idUsuario, usuario.Nombres, usuario.Apellidos, usuario.Telefono, usuario.Direccion, usuario.Correo, usuario.Ciudad FROM usuario WHERE idUsuario=${req.params.id}`,
       { type: QueryTypes.SELECT }
     );
     res.send({ id: 200, mensaje: Users });

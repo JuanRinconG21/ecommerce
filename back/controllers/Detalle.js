@@ -25,7 +25,7 @@ const AgregarDetalle = async (req, res) => {
     let nuevaCantidad = cantidadProducto[0].Cantidad - cantidadCliente;
     //Actualizo la info de el producto
     const Actualizacion = await sequelize.query(
-      `UPDATE producto SET Cantidad=${nuevaCantidad}`,
+      `UPDATE producto SET Cantidad=${nuevaCantidad} WHERE idProducto=${req.body.idProducto}`,
       { type: QueryTypes.UPDATE }
     );
     ///
