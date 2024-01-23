@@ -54,6 +54,22 @@ const ListarProductosInnerJoinNo = async (req, res) => {
   }
 };
 
+const ListarProductosInnerMasVendido = async (req, res) => {
+  try {
+    const ProductosCate = await sequelize.query(
+      `SELECT detalle.idProducto, producto.Nombre, producto.Precio, producto.Descripcion, producto.Imagen1,  SUM(detalle.Cantidad) as totalVendido
+      FROM detalle INNER JOIN producto ON detalle.idProducto=producto.idProducto
+      GROUP BY idProducto
+      ORDER BY totalVendido DESC
+      LIMIT 3;`,
+      { type: QueryTypes.SELECT }
+    );
+    res.send({ id: 200, mensaje: ProductosCate });
+  } catch (error) {
+    res.send({ id: 400, mensaje: error.message });
+  }
+};
+
 const ListarProductosXCate = async (req, res) => {
   try {
     let idCate = req.params.id;
@@ -130,4 +146,5 @@ module.exports = {
   EliminarProductos,
   ListarProductoXid,
   VerDispo,
+  ListarProductosInnerMasVendido,
 };

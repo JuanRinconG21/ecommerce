@@ -1,9 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import imagen from "../../assets/img/perifericos.jpg";
 import imagen2 from "../../assets/img/videojuego.jpg";
 import imagen3 from "../../assets/img/consolas.jpg";
-
+import { NavLink } from "react-router-dom";
 const Inicio = () => {
+  const token = localStorage.getItem("token2");
+  const [productos, setProductos] = useState([]);
+  const listarProductos = async () => {
+    const request = await fetch(
+      "http://localhost:2100/productos/listarMasVendido",
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `${token}`,
+        },
+      }
+    );
+    const data = await request.json();
+    //console.log(data);
+    setProductos([]);
+    setProductos(data.mensaje);
+  };
+  useEffect(() => {
+    listarProductos();
+  }, []);
+  const formatearPrecio = (precio) => {
+    return precio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
   return (
     <>
       <div
@@ -81,49 +105,17 @@ const Inicio = () => {
                 <div className="col-lg-6 mb-0 d-flex align-items-center">
                   <div className="text-align-left align-self-center">
                     <h1 className="h1 text-success">
-                      <b>Zay</b> eCommerce
+                      <b>Game</b>Soft
                     </h1>
-                    <h3 className="h2">Tiny and Perfect eCommerce Template</h3>
+                    <h3 className="h2">El Ecommerce Perfecto Para Gamers</h3>
                     <p>
-                      Zay Shop is an eCommerce HTML5 CSS template with latest
-                      version of Bootstrap 5 (beta 1). This template is 100%
-                      free provided by
-                      <a
-                        rel="sponsored"
-                        className="text-success"
-                        href="https://templatemo.com"
-                        target="_blank"
-                      >
-                        TemplateMo
-                      </a>
-                      website. Image credits go to
-                      <a
-                        rel="sponsored"
-                        className="text-success"
-                        href="https://stories.freepik.com/"
-                        target="_blank"
-                      >
-                        Freepik Stories
-                      </a>
-                      ,
-                      <a
-                        rel="sponsored"
-                        className="text-success"
-                        href="https://unsplash.com/"
-                        target="_blank"
-                      >
-                        Unsplash
-                      </a>
-                      and
-                      <a
-                        rel="sponsored"
-                        className="text-success"
-                        href="https://icons8.com/"
-                        target="_blank"
-                      >
-                        Icons 8
-                      </a>
-                      .
+                      Experimenta la excelencia en compras gamer con nosotros.
+                      Ofrecemos una cuidada selección de productos de alta
+                      calidad y última generación. Disfruta de envíos rápidos,
+                      atención al cliente excepcional y ofertas exclusivas. Tu
+                      satisfacción es nuestra prioridad. Únete a la comunidad
+                      gamer y vive la experiencia de compra definitiva con
+                      nosotros.
                     </p>
                   </div>
                 </div>
@@ -142,14 +134,17 @@ const Inicio = () => {
                 </div>
                 <div className="col-lg-6 mb-0 d-flex align-items-center">
                   <div className="text-align-left">
-                    <h1 className="h1">Proident occaecat</h1>
-                    <h3 className="h2">Aliquip ex ea commodo consequat</h3>
+                    <h1 className="h1 text-success">
+                      ¡Oferta Exclusiva en Consolas de Última Generación!
+                    </h1>
+                    <h3 className="">Precios Irresistibles</h3>
                     <p>
-                      You are permitted to use this Zay CSS template for your
-                      commercial websites. You are
-                      <strong>not permitted</strong> to re-distribute the
-                      template ZIP file in any kind of template collection
-                      websites.
+                      Descubre descuentos irresistibles en consolas de última
+                      generación. Renueva tu experiencia gamer con precios
+                      imbatibles.
+                      <strong className="text-success">
+                        ¡No te pierdas esta oportunidad única!
+                      </strong>
                     </p>
                   </div>
                 </div>
@@ -168,13 +163,15 @@ const Inicio = () => {
                 </div>
                 <div className="col-lg-6 mb-0 d-flex align-items-center">
                   <div className="text-align-left">
-                    <h1 className="h1">Repr in voluptate</h1>
-                    <h3 className="h2">Ullamco laboris nisi ut</h3>
+                    <h1 className="h1 text-success">
+                      Accesorios Premium: Eleva tu Juego con Estilo y Calidad
+                    </h1>
                     <p>
-                      We bring you 100% free CSS templates for your websites. If
-                      you wish to support TemplateMo, please make a small
-                      contribution via PayPal or tell your friends about our
-                      website. Thank you.
+                      Descubre una selección exclusiva de accesorios de alta
+                      gama que transformarán tu experiencia gamer. Sumérgete en
+                      un sonido envolvente con nuestros auriculares premium,
+                      diseñados para cada detalle. Personaliza tu experiencia de
+                      juego con controles únicos y ergonómicos.
                     </p>
                   </div>
                 </div>
@@ -250,108 +247,48 @@ const Inicio = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-12 col-md-4 mb-4">
-              <div className="card h-100">
-                <a href="shop-single.html">
-                  <img
-                    src="./assets/img/feature_prod_01.jpg"
-                    className="card-img-top"
-                    alt="..."
-                  />
-                </a>
-                <div className="card-body">
-                  <ul className="list-unstyled d-flex justify-content-between">
-                    <li>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-muted fa fa-star"></i>
-                      <i className="text-muted fa fa-star"></i>
-                    </li>
-                    <li className="text-muted text-right">$240.00</li>
-                  </ul>
-                  <a
-                    href="shop-single.html"
-                    className="h2 text-decoration-none text-dark"
-                  >
-                    Gym Weight
-                  </a>
-                  <p className="card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Sunt in culpa qui officia deserunt.
-                  </p>
-                  <p className="text-muted">Reviews (24)</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-4 mb-4">
-              <div className="card h-100">
-                <a href="shop-single.html">
-                  <img
-                    src="./assets/img/feature_prod_02.jpg"
-                    className="card-img-top"
-                    alt="..."
-                  />
-                </a>
-                <div className="card-body">
-                  <ul className="list-unstyled d-flex justify-content-between">
-                    <li>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-muted fa fa-star"></i>
-                      <i className="text-muted fa fa-star"></i>
-                    </li>
-                    <li className="text-muted text-right">$480.00</li>
-                  </ul>
-                  <a
-                    href="shop-single.html"
-                    className="h2 text-decoration-none text-dark"
-                  >
-                    Cloud Nike Shoes
-                  </a>
-                  <p className="card-text">
-                    Aenean gravida dignissim finibus. Nullam ipsum diam, posuere
-                    vitae pharetra sed, commodo ullamcorper.
-                  </p>
-                  <p className="text-muted">Reviews (48)</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-4 mb-4">
-              <div className="card h-100">
-                <a href="shop-single.html">
-                  <img
-                    src="./assets/img/feature_prod_03.jpg"
-                    className="card-img-top"
-                    alt="..."
-                  />
-                </a>
-                <div className="card-body">
-                  <ul className="list-unstyled d-flex justify-content-between">
-                    <li>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-warning fa fa-star"></i>
-                      <i className="text-warning fa fa-star"></i>
-                    </li>
-                    <li className="text-muted text-right">$360.00</li>
-                  </ul>
-                  <a
-                    href="shop-single.html"
-                    className="h2 text-decoration-none text-dark"
-                  >
-                    Summer Addides Shoes
-                  </a>
-                  <p className="card-text">
-                    Curabitur ac mi sit amet diam luctus porta. Phasellus
-                    pulvinar sagittis diam, et scelerisque ipsum lobortis nec.
-                  </p>
-                  <p className="text-muted">Reviews (74)</p>
-                </div>
-              </div>
-            </div>
+            {productos.length > 0 ? (
+              productos.map((product) => {
+                return (
+                  <div className="col-12 col-md-4 mb-4">
+                    <div className="card h-100">
+                      <a href="shop-single.html">
+                        <img
+                          src={product.Imagen1}
+                          className="card-img-top"
+                          alt="..."
+                        />
+                      </a>
+                      <div className="card-body">
+                        <ul className="list-unstyled d-flex justify-content-between">
+                          <li>
+                            <i className="text-warning fa fa-star"></i>
+                            <i className="text-warning fa fa-star"></i>
+                            <i className="text-warning fa fa-star"></i>
+                            <i className="text-warning fa fa-star"></i>
+                            <i className="text-warning fa fa-star"></i>
+                          </li>
+                          <li className="text-muted text-right">
+                            ${formatearPrecio(product.Precio)}
+                          </li>
+                        </ul>
+                        <a className="h2 text-decoration-none text-dark">
+                          {product.Nombre}
+                        </a>
+                        <p className="card-text">{product.Descripcion}</p>
+                        <p className="text-muted">
+                          Cantidad Vendida ({product.totalVendido})
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <h1 className="text-center mt-5">
+                No hay Productos Vendidos :'(
+              </h1>
+            )}
           </div>
         </div>
       </section>
@@ -360,17 +297,17 @@ const Inicio = () => {
           <div className="row">
             <div className="col-md-4 pt-5">
               <h2 className="h2 text-success border-bottom pb-3 border-light logo">
-                Zay Shop
+                GameSoft
               </h2>
               <ul className="list-unstyled text-light footer-link-list">
                 <li>
                   <i className="fas fa-map-marker-alt fa-fw"></i>
-                  123 Consectetur at ligula 10660
+                  Cartago, Valle del Cauca, Colombia
                 </li>
                 <li>
                   <i className="fa fa-phone fa-fw"></i>
                   <a className="text-decoration-none" href="tel:010-020-0340">
-                    010-020-0340
+                    3234681033
                   </a>
                 </li>
                 <li>
@@ -379,84 +316,82 @@ const Inicio = () => {
                     className="text-decoration-none"
                     href="mailto:info@company.com"
                   >
-                    info@company.com
+                    gamesoft@game.com
                   </a>
                 </li>
               </ul>
             </div>
 
             <div className="col-md-4 pt-5">
-              <h2 className="h2 text-light border-bottom pb-3 border-light">
-                Products
+              <h2 className="h2 text-success border-bottom pb-3 border-light logo">
+                Productos
               </h2>
+
               <ul className="list-unstyled text-light footer-link-list">
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Luxury
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Consolas
+                    </a>
+                  </NavLink>
                 </li>
+
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Sport Wear
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      VideoJuegos
+                    </a>
+                  </NavLink>
                 </li>
+                <NavLink to="/Ecommerce/Productos">
+                  <li>
+                    <a className="text-decoration-none" href="#">
+                      Accesorios
+                    </a>
+                  </li>
+                </NavLink>
+                <NavLink to="/Ecommerce/Productos">
+                  <li>
+                    <a className="text-decoration-none" href="#">
+                      Licencias
+                    </a>
+                  </li>
+                </NavLink>
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Men's Shoes
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Women's Shoes
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Popular Dress
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Gym Accessories
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Sport Shoes
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Perifericos
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
 
             <div className="col-md-4 pt-5">
-              <h2 className="h2 text-light border-bottom pb-3 border-light">
-                Further Info
+              <h2 className="h2 text-success border-bottom pb-3 border-light logo">
+                Estructura del Sitio
               </h2>
               <ul className="list-unstyled text-light footer-link-list">
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Home
-                  </a>
+                  <NavLink to="/Ecommerce">
+                    <a className="text-decoration-none" href="#">
+                      Inicio
+                    </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    About Us
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Productos
+                    </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Shop Locations
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    FAQs
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Contact
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Sobre Nostros
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -506,22 +441,7 @@ const Inicio = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-auto">
-              <label className="sr-only" for="subscribeEmail">
-                Email address
-              </label>
-              <div className="input-group mb-2">
-                <input
-                  type="text"
-                  className="form-control bg-dark border-light"
-                  id="subscribeEmail"
-                  placeholder="Email address"
-                />
-                <div className="input-group-text btn-success text-light">
-                  Subscribe
-                </div>
-              </div>
-            </div>
+            <div className="col-auto"></div>
           </div>
         </div>
 
@@ -530,13 +450,9 @@ const Inicio = () => {
             <div className="row pt-2">
               <div className="col-12">
                 <p className="text-left text-light">
-                  Copyright &copy; 2021 Company Name | Designed by
-                  <a
-                    rel="sponsored"
-                    href="https://templatemo.com"
-                    target="_blank"
-                  >
-                    TemplateMo
+                  Copyright &copy; 2024 GameSoft | Designed by
+                  <a rel="sponsored" href="https://templatemo.com">
+                    Juan Granada & Jota Rincon
                   </a>
                 </p>
               </div>

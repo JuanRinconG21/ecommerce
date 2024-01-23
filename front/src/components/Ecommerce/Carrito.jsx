@@ -234,17 +234,17 @@ const Carrito = () => {
           <div className="row">
             <div className="col-md-4 pt-5">
               <h2 className="h2 text-success border-bottom pb-3 border-light logo">
-                Zay Shop
+                GameSoft
               </h2>
               <ul className="list-unstyled text-light footer-link-list">
                 <li>
                   <i className="fas fa-map-marker-alt fa-fw"></i>
-                  123 Consectetur at ligula 10660
+                  Cartago, Valle del Cauca, Colombia
                 </li>
                 <li>
                   <i className="fa fa-phone fa-fw"></i>
                   <a className="text-decoration-none" href="tel:010-020-0340">
-                    010-020-0340
+                    3234681033
                   </a>
                 </li>
                 <li>
@@ -253,84 +253,82 @@ const Carrito = () => {
                     className="text-decoration-none"
                     href="mailto:info@company.com"
                   >
-                    info@company.com
+                    gamesoft@game.com
                   </a>
                 </li>
               </ul>
             </div>
 
             <div className="col-md-4 pt-5">
-              <h2 className="h2 text-light border-bottom pb-3 border-light">
-                Products
+              <h2 className="h2 text-success border-bottom pb-3 border-light logo">
+                Productos
               </h2>
+
               <ul className="list-unstyled text-light footer-link-list">
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Luxury
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Consolas
+                    </a>
+                  </NavLink>
                 </li>
+
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Sport Wear
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      VideoJuegos
+                    </a>
+                  </NavLink>
                 </li>
+                <NavLink to="/Ecommerce/Productos">
+                  <li>
+                    <a className="text-decoration-none" href="#">
+                      Accesorios
+                    </a>
+                  </li>
+                </NavLink>
+                <NavLink to="/Ecommerce/Productos">
+                  <li>
+                    <a className="text-decoration-none" href="#">
+                      Licencias
+                    </a>
+                  </li>
+                </NavLink>
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Mens Shoes
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Womens Shoes
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Popular Dress
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Gym Accessories
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Sport Shoes
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Perifericos
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
 
             <div className="col-md-4 pt-5">
-              <h2 className="h2 text-light border-bottom pb-3 border-light">
-                Further Info
+              <h2 className="h2 text-success border-bottom pb-3 border-light logo">
+                Estructura del Sitio
               </h2>
               <ul className="list-unstyled text-light footer-link-list">
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Home
-                  </a>
+                  <NavLink to="/Ecommerce">
+                    <a className="text-decoration-none" href="#">
+                      Inicio
+                    </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    About Us
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Productos
+                    </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="text-decoration-none" href="#">
-                    Shop Locations
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    FAQs
-                  </a>
-                </li>
-                <li>
-                  <a className="text-decoration-none" href="#">
-                    Contact
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Sobre Nostros
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -344,9 +342,9 @@ const Carrito = () => {
               <ul className="list-inline text-left footer-icons">
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
-                    rel="nofollow"
                     className="text-light text-decoration-none"
-                    href="http://fb.com/templatemo"
+                    target="_blank"
+                    href="http://facebook.com/"
                   >
                     <i className="fab fa-facebook-f fa-lg fa-fw"></i>
                   </a>
@@ -354,6 +352,7 @@ const Carrito = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
+                    target="_blank"
                     href="https://www.instagram.com/"
                   >
                     <i className="fab fa-instagram fa-lg fa-fw"></i>
@@ -362,6 +361,7 @@ const Carrito = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
+                    target="_blank"
                     href="https://twitter.com/"
                   >
                     <i className="fab fa-twitter fa-lg fa-fw"></i>
@@ -370,6 +370,7 @@ const Carrito = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
+                    target="_blank"
                     href="https://www.linkedin.com/"
                   >
                     <i className="fab fa-linkedin fa-lg fa-fw"></i>
@@ -377,20 +378,7 @@ const Carrito = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-auto">
-              <label className="sr-only">Email address</label>
-              <div className="input-group mb-2">
-                <input
-                  type="text"
-                  className="form-control bg-dark border-light"
-                  id="subscribeEmail"
-                  placeholder="Email address"
-                />
-                <div className="input-group-text btn-success text-light">
-                  Subscribe
-                </div>
-              </div>
-            </div>
+            <div className="col-auto"></div>
           </div>
         </div>
 
@@ -399,9 +387,9 @@ const Carrito = () => {
             <div className="row pt-2">
               <div className="col-12">
                 <p className="text-left text-light">
-                  Copyright &copy; 2021 Company Name | Designed by{" "}
-                  <a rel="sponsored" href="https://templatemo.com/page/1">
-                    TemplateMo
+                  Copyright &copy; 2024 GameSoft | Designed by
+                  <a rel="sponsored" href="https://templatemo.com">
+                    Juan Granada & Jota Rincon
                   </a>
                 </p>
               </div>

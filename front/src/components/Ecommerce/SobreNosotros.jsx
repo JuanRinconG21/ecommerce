@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-
+import { NavLink } from "react-router-dom";
+import imagen1 from "../../assets/img/PLAY.png";
+import imagen2 from "../../assets/img/XBOX.png";
+import imagen3 from "../../assets/img/NINTENDO LOGO.webp";
+import imagen4 from "../../assets/img/STEAM.png";
 const SobreNosotros = () => {
   return (
     <>
@@ -65,10 +69,13 @@ const SobreNosotros = () => {
       <section class="container py-5">
         <div class="row text-center pt-5 pb-3">
           <div class="col-lg-6 m-auto">
-            <h1 class="h1">Our Services</h1>
+            <h1 class="h1">Nuestros Servicios</h1>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod Lorem ipsum dolor sit amet.
+              Somos una tienda gamer apasionada por ofrecer lo mejor en
+              tecnología y entretenimiento. Descubre una selección cuidadosa de
+              productos, desde consolas hasta accesorios exclusivos. Sumérgete
+              en el mundo de los juegos con nosotros, donde la calidad y la
+              experiencia se unen. ¡Bienvenido al paraíso gamer!
             </p>
           </div>
         </div>
@@ -78,7 +85,7 @@ const SobreNosotros = () => {
               <div class="h1 text-success text-center">
                 <i class="fa fa-truck fa-lg"></i>
               </div>
-              <h2 class="h5 mt-4 text-center">Delivery Services</h2>
+              <h2 class="h5 mt-4 text-center">Servicio de Entrega</h2>
             </div>
           </div>
 
@@ -87,7 +94,7 @@ const SobreNosotros = () => {
               <div class="h1 text-success text-center">
                 <i class="fas fa-exchange-alt"></i>
               </div>
-              <h2 class="h5 mt-4 text-center">Shipping & Return</h2>
+              <h2 class="h5 mt-4 text-center">Compra y Devoluciones</h2>
             </div>
           </div>
 
@@ -96,7 +103,7 @@ const SobreNosotros = () => {
               <div class="h1 text-success text-center">
                 <i class="fa fa-percent"></i>
               </div>
-              <h2 class="h5 mt-4 text-center">Promotion</h2>
+              <h2 class="h5 mt-4 text-center">Promociones</h2>
             </div>
           </div>
 
@@ -105,7 +112,7 @@ const SobreNosotros = () => {
               <div class="h1 text-success text-center">
                 <i class="fa fa-user"></i>
               </div>
-              <h2 class="h5 mt-4 text-center">24 Hours Service</h2>
+              <h2 class="h5 mt-4 text-center">24 Horas de Servicio</h2>
             </div>
           </div>
         </div>
@@ -150,7 +157,7 @@ const SobreNosotros = () => {
                             <a href="#">
                               <img
                                 class="img-fluid brand-img"
-                                src="assets/img/brand_01.png"
+                                src={imagen1}
                                 alt="Brand Logo"
                               />
                             </a>
@@ -159,7 +166,7 @@ const SobreNosotros = () => {
                             <a href="#">
                               <img
                                 class="img-fluid brand-img"
-                                src="assets/img/brand_02.png"
+                                src={imagen2}
                                 alt="Brand Logo"
                               />
                             </a>
@@ -168,7 +175,7 @@ const SobreNosotros = () => {
                             <a href="#">
                               <img
                                 class="img-fluid brand-img"
-                                src="assets/img/brand_03.png"
+                                src={imagen3}
                                 alt="Brand Logo"
                               />
                             </a>
@@ -177,7 +184,7 @@ const SobreNosotros = () => {
                             <a href="#">
                               <img
                                 class="img-fluid brand-img"
-                                src="assets/img/brand_04.png"
+                                src={imagen4}
                                 alt="Brand Logo"
                               />
                             </a>
@@ -185,87 +192,7 @@ const SobreNosotros = () => {
                         </div>
                       </div>
 
-                      <div class="carousel-item">
-                        <div class="row">
-                          <div class="col-3 p-md-5">
-                            <a href="#">
-                              <img
-                                class="img-fluid brand-img"
-                                src="assets/img/brand_01.png"
-                                alt="Brand Logo"
-                              />
-                            </a>
-                          </div>
-                          <div class="col-3 p-md-5">
-                            <a href="#">
-                              <img
-                                class="img-fluid brand-img"
-                                src="assets/img/brand_02.png"
-                                alt="Brand Logo"
-                              />
-                            </a>
-                          </div>
-                          <div class="col-3 p-md-5">
-                            <a href="#">
-                              <img
-                                class="img-fluid brand-img"
-                                src="assets/img/brand_03.png"
-                                alt="Brand Logo"
-                              />
-                            </a>
-                          </div>
-                          <div class="col-3 p-md-5">
-                            <a href="#">
-                              <img
-                                class="img-fluid brand-img"
-                                src="assets/img/brand_04.png"
-                                alt="Brand Logo"
-                              />
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="carousel-item">
-                        <div class="row">
-                          <div class="col-3 p-md-5">
-                            <a href="#">
-                              <img
-                                class="img-fluid brand-img"
-                                src="assets/img/brand_01.png"
-                                alt="Brand Logo"
-                              />
-                            </a>
-                          </div>
-                          <div class="col-3 p-md-5">
-                            <a href="#">
-                              <img
-                                class="img-fluid brand-img"
-                                src="assets/img/brand_02.png"
-                                alt="Brand Logo"
-                              />
-                            </a>
-                          </div>
-                          <div class="col-3 p-md-5">
-                            <a href="#">
-                              <img
-                                class="img-fluid brand-img"
-                                src="assets/img/brand_03.png"
-                                alt="Brand Logo"
-                              />
-                            </a>
-                          </div>
-                          <div class="col-3 p-md-5">
-                            <a href="#">
-                              <img
-                                class="img-fluid brand-img"
-                                src="assets/img/brand_04.png"
-                                alt="Brand Logo"
-                              />
-                            </a>
-                          </div>
-                        </div>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -286,189 +213,167 @@ const SobreNosotros = () => {
         </div>
       </section>
 
-      <footer class="bg-dark" id="tempaltemo_footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-4 pt-5">
-              <h2 class="h2 text-success border-bottom pb-3 border-light logo">
-                Zay Shop
+      <footer className="bg-dark" id="tempaltemo_footer">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4 pt-5">
+              <h2 className="h2 text-success border-bottom pb-3 border-light logo">
+                GameSoft
               </h2>
-              <ul class="list-unstyled text-light footer-link-list">
+              <ul className="list-unstyled text-light footer-link-list">
                 <li>
-                  <i class="fas fa-map-marker-alt fa-fw"></i>
-                  123 Consectetur at ligula 10660
+                  <i className="fas fa-map-marker-alt fa-fw"></i>
+                  Cartago, Valle del Cauca, Colombia
                 </li>
                 <li>
-                  <i class="fa fa-phone fa-fw"></i>
-                  <a class="text-decoration-none" href="tel:010-020-0340">
-                    010-020-0340
+                  <i className="fa fa-phone fa-fw"></i>
+                  <a className="text-decoration-none" href="tel:010-020-0340">
+                    3234681033
                   </a>
                 </li>
                 <li>
-                  <i class="fa fa-envelope fa-fw"></i>
+                  <i className="fa fa-envelope fa-fw"></i>
                   <a
-                    class="text-decoration-none"
+                    className="text-decoration-none"
                     href="mailto:info@company.com"
                   >
-                    info@company.com
+                    gamesoft@game.com
                   </a>
                 </li>
               </ul>
             </div>
 
-            <div class="col-md-4 pt-5">
-              <h2 class="h2 text-light border-bottom pb-3 border-light">
-                Products
+            <div className="col-md-4 pt-5">
+              <h2 className="h2 text-success border-bottom pb-3 border-light logo">
+                Productos
               </h2>
-              <ul class="list-unstyled text-light footer-link-list">
+
+              <ul className="list-unstyled text-light footer-link-list">
                 <li>
-                  <a class="text-decoration-none" href="#">
-                    Luxury
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Consolas
+                    </a>
+                  </NavLink>
                 </li>
+
                 <li>
-                  <a class="text-decoration-none" href="#">
-                    Sport Wear
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      VideoJuegos
+                    </a>
+                  </NavLink>
                 </li>
+                <NavLink to="/Ecommerce/Productos">
+                  <li>
+                    <a className="text-decoration-none" href="#">
+                      Accesorios
+                    </a>
+                  </li>
+                </NavLink>
+                <NavLink to="/Ecommerce/Productos">
+                  <li>
+                    <a className="text-decoration-none" href="#">
+                      Licencias
+                    </a>
+                  </li>
+                </NavLink>
                 <li>
-                  <a class="text-decoration-none" href="#">
-                    Men's Shoes
-                  </a>
-                </li>
-                <li>
-                  <a class="text-decoration-none" href="#">
-                    Women's Shoes
-                  </a>
-                </li>
-                <li>
-                  <a class="text-decoration-none" href="#">
-                    Popular Dress
-                  </a>
-                </li>
-                <li>
-                  <a class="text-decoration-none" href="#">
-                    Gym Accessories
-                  </a>
-                </li>
-                <li>
-                  <a class="text-decoration-none" href="#">
-                    Sport Shoes
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Perifericos
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
 
-            <div class="col-md-4 pt-5">
-              <h2 class="h2 text-light border-bottom pb-3 border-light">
-                Further Info
+            <div className="col-md-4 pt-5">
+              <h2 className="h2 text-success border-bottom pb-3 border-light logo">
+                Estructura del Sitio
               </h2>
-              <ul class="list-unstyled text-light footer-link-list">
+              <ul className="list-unstyled text-light footer-link-list">
                 <li>
-                  <a class="text-decoration-none" href="#">
-                    Home
-                  </a>
+                  <NavLink to="/Ecommerce">
+                    <a className="text-decoration-none" href="#">
+                      Inicio
+                    </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a class="text-decoration-none" href="#">
-                    About Us
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Productos
+                    </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a class="text-decoration-none" href="#">
-                    Shop Locations
-                  </a>
-                </li>
-                <li>
-                  <a class="text-decoration-none" href="#">
-                    FAQs
-                  </a>
-                </li>
-                <li>
-                  <a class="text-decoration-none" href="#">
-                    Contact
-                  </a>
+                  <NavLink to="/Ecommerce/Productos">
+                    <a className="text-decoration-none" href="#">
+                      Sobre Nostros
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div class="row text-light mb-4">
-            <div class="col-12 mb-3">
-              <div class="w-100 my-3 border-top border-light"></div>
+          <div className="row text-light mb-4">
+            <div className="col-12 mb-3">
+              <div className="w-100 my-3 border-top border-light"></div>
             </div>
-            <div class="col-auto me-auto">
-              <ul class="list-inline text-left footer-icons">
-                <li class="list-inline-item border border-light rounded-circle text-center">
+            <div className="col-auto me-auto">
+              <ul className="list-inline text-left footer-icons">
+                <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
-                    rel="nofollow"
-                    class="text-light text-decoration-none"
+                    className="text-light text-decoration-none"
                     target="_blank"
-                    href="http://fb.com/templatemo"
+                    href="http://facebook.com/"
                   >
-                    <i class="fab fa-facebook-f fa-lg fa-fw"></i>
+                    <i className="fab fa-facebook-f fa-lg fa-fw"></i>
                   </a>
                 </li>
-                <li class="list-inline-item border border-light rounded-circle text-center">
+                <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
-                    class="text-light text-decoration-none"
+                    className="text-light text-decoration-none"
                     target="_blank"
                     href="https://www.instagram.com/"
                   >
-                    <i class="fab fa-instagram fa-lg fa-fw"></i>
+                    <i className="fab fa-instagram fa-lg fa-fw"></i>
                   </a>
                 </li>
-                <li class="list-inline-item border border-light rounded-circle text-center">
+                <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
-                    class="text-light text-decoration-none"
+                    className="text-light text-decoration-none"
                     target="_blank"
                     href="https://twitter.com/"
                   >
-                    <i class="fab fa-twitter fa-lg fa-fw"></i>
+                    <i className="fab fa-twitter fa-lg fa-fw"></i>
                   </a>
                 </li>
-                <li class="list-inline-item border border-light rounded-circle text-center">
+                <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
-                    class="text-light text-decoration-none"
+                    className="text-light text-decoration-none"
                     target="_blank"
                     href="https://www.linkedin.com/"
                   >
-                    <i class="fab fa-linkedin fa-lg fa-fw"></i>
+                    <i className="fab fa-linkedin fa-lg fa-fw"></i>
                   </a>
                 </li>
               </ul>
             </div>
-            <div class="col-auto">
-              <label class="sr-only" for="subscribeEmail">
-                Email address
-              </label>
-              <div class="input-group mb-2">
-                <input
-                  type="text"
-                  class="form-control bg-dark border-light"
-                  id="subscribeEmail"
-                  placeholder="Email address"
-                />
-                <div class="input-group-text btn-success text-light">
-                  Subscribe
-                </div>
-              </div>
-            </div>
+            <div className="col-auto"></div>
           </div>
         </div>
 
-        <div class="w-100 bg-black py-3">
-          <div class="container">
-            <div class="row pt-2">
-              <div class="col-12">
-                <p class="text-left text-light">
-                  Copyright &copy; 2021 Company Name | Designed by{" "}
-                  <a
-                    rel="sponsored"
-                    href="https://templatemo.com/page/1"
-                    target="_blank"
-                  >
-                    TemplateMo
+        <div className="w-100 bg-black py-3">
+          <div className="container">
+            <div className="row pt-2">
+              <div className="col-12">
+                <p className="text-left text-light">
+                  Copyright &copy; 2024 GameSoft | Designed by
+                  <a rel="sponsored" href="https://templatemo.com">
+                    Juan Granada & Jota Rincon
                   </a>
                 </p>
               </div>

@@ -48,6 +48,11 @@ router.get(
 );
 
 router.get(
+  "/productos/listarMasVendido",
+  ProductosController.ListarProductosInnerMasVendido
+);
+
+router.get(
   "/productos/listarCategoria/:id",
   auth,
   ProductosController.ListarProductosXCate
