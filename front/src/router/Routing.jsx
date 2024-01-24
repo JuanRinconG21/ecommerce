@@ -27,6 +27,8 @@ import LayoutEcommerce from "../components/Ecommerce/LayoutEcommerce";
 import SobreNosotros from "../components/Ecommerce/SobreNosotros";
 import Carrito from "../components/Ecommerce/Carrito";
 import PasarelaPago from "../components/Ecommerce/PasarelaPago";
+import Compras from "../components/Ecommerce/Compras";
+import Cerrar from "../components/Ecommerce/Cerrar";
 //AUTH
 import { AuthProvider } from "../context/AuthProvider";
 import { AuthProviderEcommerce } from "../context/AuthProviderEcommerce";
@@ -90,11 +92,13 @@ const Routing = () => {
           >
             <Route index element={<InicioEcommerce></InicioEcommerce>}></Route>
             <Route path="Productos" element={<Productos></Productos>}></Route>
+            <Route path="Cerrar" element={<Cerrar></Cerrar>}></Route>
             <Route
               path="SobreNosotros"
               element={<SobreNosotros></SobreNosotros>}
             ></Route>
             <Route path="Carrito" element={<Carrito></Carrito>}></Route>
+            <Route path="Compras" element={<Compras></Compras>}></Route>
             <Route
               path="Pasarela"
               element={<PasarelaPago></PasarelaPago>}

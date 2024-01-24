@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { IoIosCloseCircle } from "react-icons/io";
+import Swal2 from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal2);
+import { useNavigate } from "react-router-dom";
+
 const NavBar = () => {
+  const Navigate = useNavigate();
+
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
@@ -17,6 +24,27 @@ const NavBar = () => {
   ///INICIO CARRITO
   const [productosCarrito, setProductosCarrito] = useState([]);
   const [total, setTotal] = useState(0);
+
+  const cerrar = () => {
+    MySwal.fire({
+      title: "Quieres cerrar sesión?",
+      text: "Estas seguro?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        MySwal.fire({
+          title: "Cerrando sesión",
+          text: "Vuelve pronto",
+          icon: "success",
+        });
+        Navigate("Cerrar");
+      }
+    });
+  };
 
   const verCarro = () => {
     const productosGuardados =
@@ -179,6 +207,11 @@ const NavBar = () => {
                     <a className="nav-link">Sobre Nosotros</a>
                   </NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink to="Compras" className="nav-link">
+                    <a className="nav-link">Compras</a>
+                  </NavLink>
+                </li>
               </ul>
             </div>
             <div className="navbar align-self-center d-flex">
@@ -207,14 +240,18 @@ const NavBar = () => {
                 className="nav-icon position-relative text-decoration-none"
                 onClick={() => {
                   verCarro();
-
                   handleShow();
                 }}
               >
                 <i className="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                 <span className="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
               </a>
-              <a className="nav-icon position-relative text-decoration-none">
+              <a
+                onClick={() => {
+                  cerrar();
+                }}
+                className="nav-icon position-relative text-decoration-none"
+              >
                 <i className="fa fa-fw fa-user text-dark mr-3"></i>
                 <span className="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
               </a>
