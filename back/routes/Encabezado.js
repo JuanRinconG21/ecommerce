@@ -15,5 +15,5 @@ router.put(
   controllerEncabezado.EditarEstadoEncabezado
 );
 router.get("/encabezado/listarUno/:id", auth, controllerEncabezado.ListarUno);
-
+router.post("/encabezados/enviar", controllerEncabezado.enviarCorreo);
 module.exports = router;

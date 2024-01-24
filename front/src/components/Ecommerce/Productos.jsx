@@ -101,10 +101,10 @@ const Productos = () => {
   //ABRE CARRITO
 
   // Estado para almacenar la lista de productos en el localStorage
-
   const [productosEnLocalStorage, setProductosEnLocalStorage] = useState(
     JSON.parse(localStorage.getItem("productos")) || []
   );
+
   //FUNCION PARA VERIFICAR SI EL PRODUCTO YA ESTA
   const productoEnLocalStorage2 = (producto) => {
     const productosGuardados =
