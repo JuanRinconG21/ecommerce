@@ -27,7 +27,7 @@ const NavBar = () => {
 
   const cerrar = () => {
     MySwal.fire({
-      title: "Quieres cerrar sesión?",
+      title: "Quieres Cerrar Sesión?",
       text: "Estas seguro?",
       icon: "warning",
       showCancelButton: true,
@@ -37,7 +37,7 @@ const NavBar = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         MySwal.fire({
-          title: "Cerrando sesión",
+          title: "Cerrando Sesión",
           text: "Vuelve pronto",
           icon: "success",
         });

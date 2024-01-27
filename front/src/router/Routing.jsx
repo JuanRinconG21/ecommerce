@@ -19,6 +19,7 @@ import AgregarMetodo from "../components/DashBoard/AgregarMetodo";
 import AgregarEmpleado from "../components/DashBoard/AgregarEmpleado";
 import VerEmpleado from "../components/DashBoard/VerEmpleado";
 import LayoutEmpleado from "../components/Public/LayoutEmpleado";
+import CerrarDash from "../components/DashBoard/CerrarDash";
 
 //ECOMMERCE
 import InicioEcommerce from "../components/Ecommerce/Inicio";
@@ -41,9 +42,9 @@ const Routing = () => {
           <Route path="/LoginDash" element={<LayoutEmpleado></LayoutEmpleado>}>
             <Route index element={<LoginDash></LoginDash>}></Route>
           </Route>
-
           <Route path="/DashBoard" element={<LayoutDash></LayoutDash>}>
             <Route index element={<Inicio></Inicio>}></Route>
+            <Route path="Cerrar" element={<CerrarDash></CerrarDash>}></Route>
             <Route
               path="AgregarCategoria"
               element={<AgregarCategoria></AgregarCategoria>}

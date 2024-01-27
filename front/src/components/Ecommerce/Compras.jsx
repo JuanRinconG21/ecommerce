@@ -5,8 +5,53 @@ import { IoIosEye } from "react-icons/io";
 
 const Compras = () => {
   const [show2, setShow2] = useState(false);
+  const token = localStorage.getItem("token2");
+  const [encabezados, setEncabezados] = useState([]);
+  const [detalle, setDetalle] = useState([]);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+  const datosUser = localStorage.getItem("user2");
+  const datosParseados = JSON.parse(datosUser);
+  const formatearPrecio = (precio) => {
+    return precio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+  const listarProductos = async () => {
+    const request = await fetch(
+      `http://localhost:2100/encabezado/listarEncabezadoUser/${datosParseados.idUsuario}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `${token}`,
+        },
+      }
+    );
+    const data = await request.json();
+    //console.log(data);
+    setEncabezados([]);
+    setEncabezados(data.mensaje);
+    //console.log(encabezados);
+  };
+  const listarProductosDetalle = async (id) => {
+    const request = await fetch(
+      `http://localhost:2100/detalle/listarDetalleEnca/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `${token}`,
+        },
+      }
+    );
+    const data = await request.json();
+    //console.log(data);
+    setDetalle([]);
+    setDetalle(data.mensaje);
+    console.log("EL DETALLE", detalle);
+  };
+  useEffect(() => {
+    listarProductos();
+  }, []);
   return (
     <>
       <Modal
@@ -21,36 +66,46 @@ const Compras = () => {
           <div className="site-blocks-table">
             <table className="table table-borderless table-bordered">
               <thead>
-                <tr>
+                <tr style={{ textAlign: "center" }}>
                   <th>ID Producto</th>
                   <th>Producto</th>
+                  <th>Imagen</th>
                   <th>Cantidad</th>
                   <th>Total</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="align-middle">
-                    <div className="d-flex align-items-center">
-                      <p className="mb-0">1456</p>
-                    </div>
-                  </td>
-                  <td className="align-middle">
-                    <div className="d-flex align-items-center">
-                      <p className="mb-0">Nintendo Switch Oled</p>
-                    </div>
-                  </td>
-                  <td className="align-middle">
-                    <div className="d-flex align-items-center">
-                      <p className="mb-0">1</p>
-                    </div>
-                  </td>
-                  <td className="align-middle">
-                    <div className="d-flex align-items-center">
-                      <p className="mb-0">$ 1.800.000</p>
-                    </div>
-                  </td>
-                </tr>
+                {detalle.map((detalle2) => {
+                  return (
+                    <tr
+                      style={{ textAlign: "center" }}
+                      key={detalle2.idProducto}
+                    >
+                      <td className="align-middle">
+                        <p className="mb-0">{detalle2.idProducto}</p>
+                      </td>
+                      <td className="align-middle">
+                        <p className="mb-0">{detalle2.Nombre}</p>
+                      </td>
+                      <td className="align-middle">
+                        <img
+                          src={detalle2.Imagen1}
+                          style={{
+                            maxWidth: "40%",
+                          }}
+                        />
+                      </td>
+                      <td className="align-middle">
+                        <p className="mb-0">{detalle2.Cantidad}</p>
+                      </td>
+                      <td className="align-middle">
+                        <p className="mb-0">
+                          ${formatearPrecio(detalle2.Totalprod)}
+                        </p>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -66,7 +121,7 @@ const Compras = () => {
           <div className="col-12">
             <div className="site-blocks-table">
               <table className="table table-borderless table-bordered">
-                <thead>
+                <thead style={{ textAlign: "center" }}>
                   <tr>
                     <th>ID Factura</th>
                     <th>Fecha de Compra</th>
@@ -76,46 +131,47 @@ const Compras = () => {
                     <th>Productos</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">1456</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">18-01-2024</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">$ 5.000.000</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">Completada</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">Efectivo</p>
-                      </div>
-                    </td>
-                    <td className="align-middle">
-                      <div className="d-flex align-items-center">
-                        <button
-                          className="btn btn-success"
-                          onClick={() => {
-                            handleShow2();
-                          }}
-                        >
-                          <IoIosEye />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                <tbody style={{ textAlign: "center" }}>
+                  {encabezados.map((encabezado) => {
+                    return (
+                      <tr key={encabezado.idEncabezado}>
+                        <td className="align-middle">
+                          <p className="mb-0">{encabezado.idEncabezado}</p>
+                        </td>
+                        <td className="align-middle">
+                          <p className="mb-0">{encabezado.FechayHora}</p>
+                        </td>
+                        <td className="align-middle">
+                          <p className="mb-0" style={{ fontSize: "1px" }}>
+                            $ {formatearPrecio(encabezado.Total)}
+                          </p>
+                        </td>
+                        <td className="align-middle">
+                          <p className="mb-0">
+                            {encabezado.idEstado === 0
+                              ? "Pendiente"
+                              : encabezado.idEstado === 1
+                              ? "Enviado"
+                              : "Cancelado"}
+                          </p>
+                        </td>
+                        <td className="align-middle">
+                          <p className="mb-0">{encabezado.MetodoPago}</p>
+                        </td>
+                        <td className="align-middle">
+                          <button
+                            className="btn btn-success"
+                            onClick={() => {
+                              listarProductosDetalle(encabezado.idEncabezado);
+                              handleShow2();
+                            }}
+                          >
+                            <IoIosEye />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -237,7 +293,6 @@ const Compras = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="http://facebook.com/"
                   >
                     <i className="fab fa-facebook-f fa-lg fa-fw"></i>
@@ -246,7 +301,6 @@ const Compras = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.instagram.com/"
                   >
                     <i className="fab fa-instagram fa-lg fa-fw"></i>
@@ -255,7 +309,6 @@ const Compras = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://twitter.com/"
                   >
                     <i className="fab fa-twitter fa-lg fa-fw"></i>
@@ -264,7 +317,6 @@ const Compras = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.linkedin.com/"
                   >
                     <i className="fab fa-linkedin fa-lg fa-fw"></i>

@@ -44,7 +44,16 @@ const ListarDetalle = async (req, res) => {
   res.send({ id: 200, mensaje: Detalles });
 };
 
+const ListarDetalleEncabezado = async (req, res) => {
+  const Detalles = await sequelize.query(
+    `SELECT detalle.idProducto, producto.Nombre, producto.Imagen1, detalle.Cantidad, detalle.Totalprod FROM detalle INNER JOIN producto ON detalle.idProducto=producto.idProducto WHERE detalle.idEncabezado = ${req.params.id}`,
+    { type: QueryTypes.SELECT }
+  );
+  res.send({ id: 200, mensaje: Detalles });
+};
+
 module.exports = {
   AgregarDetalle,
   ListarDetalle,
+  ListarDetalleEncabezado,
 };

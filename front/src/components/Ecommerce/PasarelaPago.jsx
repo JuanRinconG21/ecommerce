@@ -218,6 +218,7 @@ const PasarelaPago = () => {
               //ACA SE INSERTA EL DETALLE
               try {
                 let i = 1;
+
                 // Iterar sobre los detalles y enviar cada uno al servidor
                 for (const producto of productosCarrito) {
                   //const { Cantidad, TotalProd, idProducto } = detalle;
@@ -240,46 +241,67 @@ const PasarelaPago = () => {
                     }
                   );
                   const data = await response.json();
-                  console.log(data);
+                  //console.log(data);
                   if (data.id === 400) {
                     MySwal.fire({
                       title: <strong> {"Error"}</strong>,
                       html: <i>{"Error al Comprar, Contacte a Soporte"}</i>,
                       icon: "error",
                     });
-
                     break;
                   } else {
-                    MySwal.fire({
-                      title: <strong> {"Felicitaciones"}</strong>,
-                      html: (
-                        <i>
-                          {
-                            "Compra Agregada Correctamente \nPronto Recibiras Informacion a Tu Correo Electronico"
-                          }
-                        </i>
-                      ),
-                      icon: "success",
-                    });
-                    localStorage.removeItem("productos");
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 3000);
+                    if (i == productosCarrito.length) {
+                      const response = await fetch(
+                        "http://localhost:2100/encabezados/enviar",
+                        {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `${token}`,
+                          },
+                          body: JSON.stringify({
+                            id: idUsuario.value,
+                            idMetodo: metodoPago.value,
+                            totalPagar: totalFinal,
+                          }),
+                        }
+                      );
+                      const data = await response.json();
+                      if (data.id === 200) {
+                        MySwal.fire({
+                          title: <strong> {"Felicitaciones"}</strong>,
+                          html: (
+                            <i>
+                              {
+                                "Compra Agregada Correctamente \nPronto Recibiras Informacion a Tu Correo Electronico"
+                              }
+                            </i>
+                          ),
+                          icon: "success",
+                        });
+                        localStorage.removeItem("productos");
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 1500);
+                      } else {
+                        MySwal.fire({
+                          title: <strong> {"Error"}</strong>,
+                          html: <i>{`Ha ocurrido un Error ${data.mensaje}`}</i>,
+                          icon: "error",
+                        });
+                      }
+                    }
+                    //let fechayhora = obtenerFechaYHoraActual();
                   }
                   i = i + 1;
                 }
                 // Puedes agregar lógica aquí si necesitas realizar alguna acción después de enviar todos los detalles
-                if (error2 == null) {
-                  console.log("TODO MELITO");
-                } else if (error2 === true) {
-                  console.log("NADA MELITO");
-                }
                 // Limpiar el localStorage después de enviar los detalles
               } catch (error) {
                 console.error("Error durante el proceso de envío:", error);
                 // Puedes manejar el error aquí
               }
-              console.log("TODO BEN");
+              //console.log("TODO BEN");
             } else {
               MySwal.fire({
                 title: <strong> {"Error"}</strong>,
@@ -643,7 +665,6 @@ const PasarelaPago = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="http://facebook.com/"
                   >
                     <i className="fab fa-facebook-f fa-lg fa-fw"></i>
@@ -652,7 +673,6 @@ const PasarelaPago = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.instagram.com/"
                   >
                     <i className="fab fa-instagram fa-lg fa-fw"></i>
@@ -661,7 +681,6 @@ const PasarelaPago = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://twitter.com/"
                   >
                     <i className="fab fa-twitter fa-lg fa-fw"></i>
@@ -670,7 +689,6 @@ const PasarelaPago = () => {
                 <li className="list-inline-item border border-light rounded-circle text-center">
                   <a
                     className="text-light text-decoration-none"
-                    target="_blank"
                     href="https://www.linkedin.com/"
                   >
                     <i className="fab fa-linkedin fa-lg fa-fw"></i>
