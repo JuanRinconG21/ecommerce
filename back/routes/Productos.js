@@ -96,9 +96,9 @@ router.put(
   auth,
   async (req, res) => {
     try {
-      const resizedImageBuffer = await resizeImage(req.file.buffer);
       const originalname = req.file.filename;
-      const imagePath = `http://localhost:2100/${originalname}`;
+      HelpImg(req.file.path, "resize-" + originalname, 300);
+      const imagePath = `http://localhost:2100/${"resize-" + originalname}`;
       const Producto = await Products.update(
         { ...req.body, Imagen1: imagePath },
         {

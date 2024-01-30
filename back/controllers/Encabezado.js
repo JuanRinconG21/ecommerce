@@ -115,13 +115,13 @@ const enviarCorreo = async (req, res) => {
     );
 
     const Enacabezado = await sequelize.query(
-      `SELECT MAX(idEncabezado) AS Maximo FROM encabezado`,
+      `SELECT MAX(idEncabezado) AS Maximo  FROM encabezado`,
       {
         type: QueryTypes.SELECT,
       }
     );
     const TotalEnca = await sequelize.query(
-      `SELECT Total FROM encabezado WHERE idEncabezado=${Enacabezado[0].Maximo}`,
+      `SELECT Total, FechayHora FROM encabezado WHERE idEncabezado=${Enacabezado[0].Maximo}`,
       {
         type: QueryTypes.SELECT,
       }
@@ -256,7 +256,7 @@ const enviarCorreo = async (req, res) => {
             )}</strong>
           </p>
           <p>Fecha y Hora de la Compra: <strong>${
-            req.body.fechaYhora
+            TotalEnca[0].FechayHora
           }</strong></p>
     
           <h3>Datos del Usuario</h3>
